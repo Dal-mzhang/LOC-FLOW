@@ -1,5 +1,5 @@
 # LOC-FLOW
-Earthquake Location WorkFlow
+Earthquake Location Workflow
 
 Coming soon...
 
