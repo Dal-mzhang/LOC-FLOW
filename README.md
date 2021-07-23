@@ -2,7 +2,7 @@
 Earthquake Location Workflow
 
 Coming soon...
-
+Want to try it now? send an email to Miao Zhang (miao.zhang@dal.ca).
 
 ![image](https://user-images.githubusercontent.com/51533859/126005752-80eda51c-8757-47c0-92a8-912dd4bbb38d.png)
 
