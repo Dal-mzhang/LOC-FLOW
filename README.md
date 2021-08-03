@@ -1,15 +1,11 @@
 # LOC-FLOW
 Earthquake Location Workflow
 
-Coming soon...
-Want to try it now? send an email to Miao Zhang (miao.zhang@dal.ca).
-
-![image](https://user-images.githubusercontent.com/51533859/126005752-80eda51c-8757-47c0-92a8-912dd4bbb38d.png)
-
+![LOC-FLOW](https://user-images.githubusercontent.com/51533859/127945778-3c260000-b597-4377-9285-fb7da432c1c6.jpg)
 
 LOC-FLOW is an “hands-free” earthquake location workflow to process continuous seismic records: from raw waveforms to well located earthquakes with magnitude calculations. The package assembles several popular routines for sequential earthquake location refinements, suitable for catalog building ranging from local to regional scales. 
 
-The LOC-FLOW will be released and maintained at https://github.com/Dal-mzhang/LOC-FLOW.
+The LOC-FLOW is released and maintained at https://github.com/Dal-mzhang/LOC-FLOW.
 
 Dependent packages in LOC-FLOW includes PhaseNet [contains Obspy], REAL, VELEST, hypoINVERSE, hypoDD, GrowClust, FDTCC, Match&Locate; see [STEP 0 in the CookBook or src]. Questions related to the original packages should be addressed to the corresponding authors.
 
