@@ -12,7 +12,7 @@
 #conda env create -f env.yml
 
 #build the bin dir
-#mkdir ../bin
+mkdir ../bin
 
 #move commands into ../bin
 cp ./FDTCC/bin/FDTCC ../bin/            #need SAC lib in Makefile
