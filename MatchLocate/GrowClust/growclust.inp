@@ -1,0 +1,74 @@
+****  Example GrowClust Control File  *****
+******   Spanish Springs Sequence   *******
+********  Daniel Trugman, 2016   **********
+*******************************************
+*
+*******************************************
+*************  Event list  ****************
+*******************************************
+* evlist_fmt (0 = evlist, 1 = phase, 2 = GrowClust, 3 = HypoInverse)
+1
+* fin_evlist (event list file name)
+IN/evlist.txt
+*
+*******************************************
+************   Station list   *************
+*******************************************
+* stlist_fmt (0 = SEED channel, 1 = station name)
+1
+* fin_stlist (station list file name)
+IN/stlist.txt
+*
+*******************************************
+*************   XCOR data   ***************
+*******************************************
+* xcordat_fmt (0 = binary, 1 = text), tdif_fmt (21 = tt2-tt1, 12 = tt1-tt2)
+1  12
+* fin_xcordat
+IN/dt.cc
+*
+*******************************************
+*** Velocity Model / Travel Time Tables ***
+*******************************************
+* fin_vzmdl (input vz model file)
+IN/vzmodel.txt
+* fout_vzfine (output, interpolated vz model file)
+TT/vzfine.txt
+* fout_pTT (output travel time table, P phase)
+TT/tt.pg
+* fout_sTT (output travel time table, S phase)
+TT/tt.sg
+*
+******************************************
+***** Travel Time Table Parameters  ******
+******************************************
+* vpvs_factor  rayparam_min (-1 = default)
+  -1            -1
+* tt_dep0  tt_dep1  tt_ddep
+   0.        30.       1.0
+* tt_del0  tt_del1  tt_ddel
+   0.        200.      1.0
+*
+******************************************
+***** GrowClust Algorithm Parameters *****
+******************************************
+* rmin  delmax rmsmax 
+  0.6    120    0.2
+* rpsavgmin, rmincut  ngoodmin   iponly 
+  0          0.65       5        0
+*
+******************************************
+************ Output files ****************
+******************************************
+* nboot  nbranch_min
+   1         1
+* fout_cat (relocated catalog)
+OUT/out.growclust_cat
+* fout_clust (relocated cluster file)
+OUT/out.growclust_clust
+* fout_log (program log)
+OUT/out.growclust_log
+* fout_boot (bootstrap distribution)
+OUT/out.growclust_boot
+******************************************
+******************************************
