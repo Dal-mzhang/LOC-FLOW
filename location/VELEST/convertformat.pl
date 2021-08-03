@@ -1,7 +1,4 @@
 #!/usr/bin/perl
-#
-# Author: Miao Zhang, miao.zhang@dal.ca
-#
 # isingle == 0: location+model updation; isingle == 1: location alone
 
 @ARGV == 7 || die "perl $0 latref lonref distmax isingle station velmodel phasein\n";
