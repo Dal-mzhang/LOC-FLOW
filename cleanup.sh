@@ -22,9 +22,9 @@ rm location/hypoinverse_corr/*.arc location/hypoinverse_corr/*.pdf location/hypo
 
 rm hypoDD_dtct/hypoDD.reloc* hypoDD_dtct/hypoDD.pha hypoDD_dtct/dt.ct
 rm hypoDD_dtcc/hypoDD.reloc* hypoDD_dtcc/hypoDD.pha hypoDD_dtcc/dt.cc
-rm GrowClust/IN/hypoDD.pha GrowClust/IN/dt.cc GrowClust/OUT/out.* GrowClust/TT/* 
+rm GrowClust/IN/hypoDD.pha GrowClust/IN/dt.cc GrowClust/OUT/out.* 
 
 rm Magnitude/catalog_mag.txt
 
-rm -rf MatchLocate/Template/2016* MatchLocate/Template/INPUT MatchLocate/20161014 MatchLocate/MultipleTemplate/waveforms MatchLocate/GrowClust/OUT/out.* MatchLocate/GrowClust/TT/* MatchLocate/MultipleTemplate/DetectedFinal.dat MatchLocate/*.dat MatchLocate/INPUT.in
+rm -rf MatchLocate/Template/2016* MatchLocate/Template/INPUT MatchLocate/20161014 MatchLocate/MultipleTemplate/waveforms MatchLocate/GrowClust/OUT/out.* MatchLocate/MultipleTemplate/DetectedFinal.dat MatchLocate/*.dat MatchLocate/INPUT.in
 rm Plot/*.jpg Plot/*.pdf
