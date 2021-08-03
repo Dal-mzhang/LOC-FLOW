@@ -4,6 +4,8 @@ phaseout=hypoDD.pha; #phase format for hypoDD
 stationin=../Data/station.dat; #station list
 stationout=station.dat; #station format by hypoDD
 
+awk '{print($4,$2,$1)}' $stationin > $stationout
+
 hypo=$1 #from your input
 
 #########################step 1 (4a in cookbook)########################
