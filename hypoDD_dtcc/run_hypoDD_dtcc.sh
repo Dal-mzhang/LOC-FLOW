@@ -8,6 +8,8 @@ phaseout=./hypoDD.pha; #phase format for hypoDD
 stationin=../Data/station.dat; #station list
 stationout=station.dat; #station format by hypoDD
 
+awk '{print($4,$2,$1)}' $stationin > $stationout
+
 ##############################step 1 (cookbook 5a)#####################
 #generate a new hypoDD.pha for hypoDD (dt.cc)
 useall=1  #0: only use those well-located events from hypoDD.reloc (dt.ct)
