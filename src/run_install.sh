@@ -24,8 +24,8 @@ cp ./REAL/bin/* ../bin/                 #change gcc-10 (on Mac) to gcc as needed
 cp ./hyp1.40/source/hyp1.40  ../bin     #change f77 to gfortran or similar complier
 
 #add this commond in your ~/.bash_profile or ~/.bashrc
-#export PATH=${your path}/LOCFLOW/bin/:$PATH
-#e.g., export PATH=/Users/miao/Desktop/LOCFLOW/bin:$PATH
+#export PATH=${your path}/LOC-FLOW/bin/:$PATH
+#e.g., export PATH=/Users/miao/Desktop/LOC-FLOW/bin:$PATH
 
 #in your command line
 #source ~/.bash_profile
