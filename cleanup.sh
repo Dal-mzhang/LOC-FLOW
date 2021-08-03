@@ -1,4 +1,4 @@
-#!/usr/bin/bash -w
+#!/bin/bash -w
 #delete big files
 
 #delete those dependent codes
