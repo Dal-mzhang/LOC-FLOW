@@ -7,7 +7,10 @@ LOC-FLOW is an “hands-free” earthquake location workflow to process continuo
 
 The LOC-FLOW is released and maintained at https://github.com/Dal-mzhang/LOC-FLOW.
 
-Dependent packages in LOC-FLOW includes PhaseNet [contains Obspy], REAL, VELEST, hypoINVERSE, hypoDD, GrowClust, FDTCC, Match&Locate; see [STEP 0 in the CookBook or src]. Questions related to the original packages should be addressed to the corresponding authors.
+How to start? bash run_all.sh. 
+Detailed step-by-step explanations can be found in the CookBook and corresponding scripts.
+
+Dependent packages in LOC-FLOW includes PhaseNet [contains Obspy], REAL, VELEST, HYPOINVERSE, hypoDD, GrowClust, FDTCC, Match&Locate; see [STEP 0 in the CookBook or src]. Questions related to the original packages should be addressed to the corresponding authors.
 
 All other credits to Miao Zhang (also author of REAL and Match&Locate), Min Liu (also author of FDTCC), and Tian Feng, who integrated these packages and made the I/O codes publicly available. We thank Weiqiang Zhu for help with the PhaseNet. The CookBook is prepared by Ruijia Wang and Miao Zhang.
 
