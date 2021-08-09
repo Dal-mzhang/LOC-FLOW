@@ -7,7 +7,7 @@ velest_vel="../VELEST/velest.mod" #velest's output (mode=0), renamed.
 ###only eligible to have enough reliable events to update vel. and sta. corr.in the VELEST step###
 ###you will get worse locations if your vel. and sta. corr. are not updated properly.
 
-####step 1 (cookbook 3.3 step 3a)##### create station delay files and velocity model
+####step 1 (cookbook 3.3 step 3a)##### create velocity model
 python mk_vel_velest2hypoinverse.py $velest_vel
 
 #please run mk_vel_velest2hypoinverse.py to convert the Vp and Vs models
@@ -23,6 +23,7 @@ cat ../../REAL/*.phase_sel.txt > $phasein
 python mk_inputfile.py $phasein $stationin > hypoinput.arc
 rm $phasein
 
+# create station delay files
 python mk_stacorr.py $velest_sta_corr $stationin
 
 ####step 3 (cookbook 3.3 step 3c)####### run hypoinverse
