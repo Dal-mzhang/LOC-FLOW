@@ -11,11 +11,21 @@ build_taup_model("mymodel.nd")
 # TauP, velest, and hypoinverse don't like low velocity layers...
 model = TauPyModel(model="mymodel")
 
+dist=1.4 #dist range in deg.
+dep=20 #depth in km
+
+ddist=0.01 #dist interval, be exactly divided by dist
+ddep=1 #depth interval, be exactly divided by dep
+
+ndep=int(dep/ddep)+1
+ndist=int(dist/ddist)+1
+
 with open("ttdb.txt", "w") as f:
     #f.write("dist dep tp ts tp_slowness ts_slowness tp_hslowness ts_hslowness p_elvecorr s_elvecorr\n")
-    for dep in range(0,21,1): # search 0 - 20 km in depth, change as needed
-        for dist in range(1,141,1): # search 0.01 - 1.4 degree in horizontal, change as needed
-            dist = dist*0.01 # 0.01 deg. interval in horizontal, change as needed
+    for idep in range(0,ndep,1): # in depth
+        for idist in range(1,ndist,1): # in horizontal
+            dist = idist*ddist
+            dep = idep*ddep
             print(dep,dist)
             arrivals = model.get_travel_times(source_depth_in_km=dep, distance_in_degree=dist, phase_list=["P","p","S","s"])
             #print(arrivals)
