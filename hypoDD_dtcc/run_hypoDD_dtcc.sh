@@ -42,8 +42,8 @@ D=0.01/0.6/1/2
 G=1.4/20/0.01/1
 #specify the path of event.sel, dt.ct and phase.dat (1: yes, 0: default names)
 C=1/1/1
-#input data format (-3: continuous data -5: event segments)
-F=-3
+#input data format (0: continuous data, 1: event segments)
+F=0
 #BP filter, low and high B=-1/-1 will not fiter the data 
 B=2/8
 
