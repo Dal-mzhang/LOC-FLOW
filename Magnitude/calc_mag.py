@@ -81,6 +81,7 @@ with open(phasedir) as p:
                         datatrn = trn[0].data
                         # 1000 is from meter to millimeter (mm) see Hutton and Boore (1987)
                         # use maximum amplitude (zero-to-peak)
+                        # amp = max(np.max(np.abs(datatre)),np.max(np.abs(datatrn)))*1000
                         # amp = (np.max(np.abs(datatre)) + np.max(np.abs(datatrn)))/2*1000
                         # use average amplitude (half peak-to-peak)
                         amp = (np.max(datatre) + np.abs(np.min(datatre)) + np.max(datatrn) + np.abs(np.min(datatrn)))/4*1000
