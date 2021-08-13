@@ -113,7 +113,7 @@ fi
 if [ $hypoinverse == 1 ]
 then
 gmt begin hypoinverse $fig_format
-gmt subplot begin 2x2 -Fs$lon_range,$dep_range/$lat_range,$dep_range -A -M0.2c/0.1c -T"hypoinverse catalog"
+gmt subplot begin 2x2 -Fs$lon_range,$dep_range/$lat_range,$dep_range -A -M0.2c/0.1c -T"HYPOINVERSE catalog"
 
 gmt subplot set 0,0
 projection="X$lon_range/$lat_range"
