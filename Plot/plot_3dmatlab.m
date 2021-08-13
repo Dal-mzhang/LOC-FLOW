@@ -16,12 +16,12 @@ clc;clear all;close all;
 %hypoinverse's locations (hypo=2)
 loc1 = '../location/hypoinverse/new.cat'
 a = load(loc1); lat1 = a(:,5); lon1 = a(:,6); dep1 = a(:,7);
-title1 = 'hypoinverse catalog'
+title1 = 'HYPOINVERSE catalog'
 
 %hypoinverse_corr's locations (hypo=3)
 %loc1 = '../location/hypoinverse_corr/new.cat'
 %a = load(loc1); lat1 = a(:,5); lon1 = a(:,6); dep1 = a(:,7);
-%title1 = 'hypoinverse\_corr catalog'
+%title1 = 'HYPOINVERSE\_corr catalog'
 
 % you may only show those events with P's DT or CC constraints
 % also consider useall=0 in hypoDD_dtcc/run_hypoDD_dtcc.sh and GrowClust/IN/gen_input.pl
