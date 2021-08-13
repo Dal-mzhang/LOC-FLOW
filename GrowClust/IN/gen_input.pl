@@ -114,8 +114,8 @@ $D = "0.01/0.6/1/2"; #optional
 $G = "1.4/20/0.01/1";
 #specified path of event.sel and dt.ct (optional)
 $C = "1/1/1"; 	#(0: default 1:user specify)
-#data format
-$F = "-3";
+#data format (0: continuous data; 1: event segments)
+$F = "0";
 #fitering
 $B = "2/8";
 
