@@ -84,7 +84,7 @@ for($i=0;$i<@par;$i++){
 $nlayer = $i;
 
 # the second line - indicate the number of layers for Vp
-printf NV "%3d        vel,depth,vdamp,phase (f5.2,5x,f7.2,2x,f7.3,3x,a1)\n",$nlayer+1;
+printf NV "%3d        vel,depth,vdamp,phase (f5.2,5x,f7.2,2x,f7.3,3x,a1)\n",$nlayer+2;
 # add a layer above the sea level (assume the velocity wrt the sea level)
 ($hp,$vp,$vs,$den,$qp,$qs) = split(" ",$par[0]);
 $hp = -3.0;
@@ -97,9 +97,11 @@ for($i=0;$i<$nlayer;$i++){
     ($hp,$vp,$vs,$den,$qp,$qs) = split(" ",$par[$i]);
     printf NV "%5.2f     %7.2f  %7.3f\n",$vp,$hp,$vdamp;
 }
+    ($hp,$vp,$vs,$den,$qp,$qs) = split(" ",$par[$i+1]);
+    printf NV "%5.2f     %7.2f  %7.3f\n",$vp,$hp+0.1,$vdamp; # include the upper mantle layer
 
 # indicate the number of layers for Vs
-printf NV "%3d\n",$nlayer+1;
+printf NV "%3d\n",$nlayer+2;
 # add a layer above the sea level (assume the velocity wrt the sea level)
 ($hs,$vp,$vs,$den,$qp,$qs) = split(" ",$par[0]);
 $hs = -3.0;
@@ -112,6 +114,8 @@ for($i=0;$i<$nlayer;$i++){
     ($hs,$vp,$vs,$den,$qp,$qs) = split(" ",$par[$i]);
     printf NV "%5.2f     %7.2f  %7.3f\n",$vs,$hs,$vdamp;
 }
+    ($hs,$vp,$vs,$den,$qp,$qs) = split(" ",$par[$i+1]);
+    printf NV "%5.2f     %7.2f  %7.3f\n",$vs,$hs+0.1,$vdamp; # include the upper mantle layer
 close(NV);
 
 ##################################################
