@@ -44,8 +44,10 @@ $nlayer = $i;
 for($i=0;$i<$nlayer;$i++){
     chomp($par[$i]);
     ($hp,$vp,$vs,$den,$qp,$qs) = split(" ",$par[$i]);
-    printf NV "%7.2f     %5.2f  0.0\n",$hp,$vp;
+    printf NV "%7.2f     %5.2f  %5.2f\n",$hp,$vp,$vs;
 }
+    ($hp,$vp,$vs,$den,$qp,$qs) = split(" ",$par[$i+1]);
+    printf NV "%7.2f     %5.2f  %5.2f\n",$hp+0.1,$vp,$vs; #include the upper mantle layer
 close(NV);
 
 #####################
