@@ -21,25 +21,23 @@ def gen_sta_hypo(stationin):
     with open(stationin, 'r') as fr:
         for line in fr.readlines():
             line = line.strip().split()
-            latD, latM = decdeg2dms(float(line[1]))
-            lonD, lonM = decdeg2dms(float(line[0]))
-            if latD > 0 and lonD >= 0:
+            lat_0=float(line[1])
+            lon_0=float(line[0])
+            latD, latM = decdeg2dms(abs(lat_0))
+            lonD, lonM = decdeg2dms(abs(lon_0))
+            if lat_0 > 0 and lon_0 >= 0:
                 for channel in ['001', '002', '003']:
                     #g.write('{:<5s} {:2s}  {:3s} {:3d} {:7.4f} {:3d} {:7.4f}E{:4d}\n'.format(line[3], line[2], channel ,latD, latM, lonD, lonM, 0))
-                    g.write('{:<5s} {:2s}  {:3s} {:3d} {:7.4f} {:3d} {:7.4f}E{:4d}\n'.format(line[3], line[2], channel ,latD, latM, lonD, lonM, int(float(line[5])*1000)))
-            if latD > 0 and lonD < 0:
-                lonD=(-1)*lonD
+                    g.write('{:<5s} {:2s}  {:3s} {:3d} {:7.4f}N{:3d} {:7.4f}E{:4d}\n'.format(line[3], line[2], channel ,latD, latM, lonD, lonM, int(float(line[5])*1000)))
+            if lat_0 > 0 and lon_0 < 0:
                 for channel in ['001', '002', '003']:
-                    g.write('{:<5s} {:2s}  {:3s} {:3d} {:7.4f} {:3d} {:7.4f} {:4d}\n'.format(line[3], line[2], channel ,latD, latM, lonD, lonM, int(float(line[5])*1000)))
-            if latD <= 0 and lonD >= 0:
-                latD=(-1)*latD
+                    g.write('{:<5s} {:2s}  {:3s} {:3d} {:7.4f}N{:3d} {:7.4f}W{:4d}\n'.format(line[3], line[2], channel ,latD, latM, lonD, lonM, int(float(line[5])*1000)))
+            if lat_0 <= 0 and lon_0 >= 0:
                 for channel in ['001', '002', '003']:
                     g.write('{:<5s} {:2s}  {:3s} {:3d} {:7.4f}S{:3d} {:7.4f}E{:4d}\n'.format(line[3], line[2], channel ,latD, latM, lonD, lonM, int(float(line[5])*1000)))
-            if latD <= 0 and lonD < 0:
-                latD=(-1)*latD
-                lonD=(-1)*lonD
+            if lat_0 <= 0 and lon_0 < 0:
                 for channel in ['001', '002', '003']:
-                    g.write('{:<5s} {:2s}  {:3s} {:3d} {:7.4f}S{:3d} {:7.4f} {:4d}\n'.format(line[3], line[2], channel ,latD, latM, lonD, lonM, int(float(line[5])*1000)))
+                    g.write('{:<5s} {:2s}  {:3s} {:3d} {:7.4f}S{:3d} {:7.4f}W{:4d}\n'.format(line[3], line[2], channel ,latD, latM, lonD, lonM, int(float(line[5])*1000)))
 
 
 class Event(object):
