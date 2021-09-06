@@ -111,8 +111,8 @@ print("################\ncreat pick files by date and station name\n############
 # separate picks based on date and station names
 # the picks maybe not in order, it is fine and REAL
 # will sort it by their arrival
-command = "pick2real -Ptemp.p -Stemp.s"
+command = "pick2real -Ptemp.p -Stemp.s &"
 print(command)
 os.system(command)
-os.remove(output1) 
-os.remove(output2) 
+#os.remove(output1) 
+#os.remove(output2) 
