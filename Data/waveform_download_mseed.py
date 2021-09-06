@@ -132,13 +132,13 @@ for i in range(nday):
     st = read(os.path.join(eventid_dir,"*.mseed"))
     inv = read_inventory(os.path.join(eventid_dir,"*.xml"))
     st.merge(method=1, fill_value='interpolate')
-    st.interpolate(sampling_rate=samplingrate,startime=tb)
     st = st.trim(starttime, endtime, pad=True, fill_value=0)
     for tr in st: 
         if np.isnan(np.max(tr.data)) or np.isinf(np.max(tr.data)):
             st.remove(tr)
     st.detrend("demean")
     st.detrend("linear")
+    st.interpolate(sampling_rate=samplingrate,startime=tb)
     pre_filt = [0.001, 0.002, 25, 30]
     st.attach_response(inv)
     st.remove_response(pre_filt=pre_filt,water_level=10,taper=True,taper_fraction=0.00001)
