@@ -111,7 +111,7 @@ for i in range(nday):
         reject_channels_with_gaps=False,
         #channel="", # use all available channels if not provided
         channel_priorities=channels,
-        network=network,
+        network=network, # use all available networks if not provided
         #station="",
         #location="00",
         minimum_length = 0.5,
@@ -134,6 +134,9 @@ for i in range(nday):
     st.merge(method=1, fill_value='interpolate')
     st.interpolate(sampling_rate=samplingrate,startime=tb)
     st = st.trim(starttime, endtime, pad=True, fill_value=0)
+    for tr in st: 
+        if np.isnan(np.max(tr.data)) or np.isinf(np.max(tr.data)):
+            st.remove(tr)
     st.detrend("demean")
     st.detrend("linear")
     pre_filt = [0.001, 0.002, 25, 30]
