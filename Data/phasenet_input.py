@@ -19,8 +19,9 @@ year0 = 2016 # year
 mon0 = 10 # month
 day0 = 14 #day
 nday = 1 # number of days
-dayleng = 3000 # seconds in one day
-#dayleng = 86400 # seconds in one day
+tbeg = 0 # beginning time
+tend = 3000 # ending time
+#tend = 86400 # ending time, the whole day
 
 # Station region
 latref = 42.75 # reference lat.
@@ -112,8 +113,8 @@ for i in range(nday):
                 else:
                     print('use vertical component or three components? try numberofcomp=1 or 3')
 
-            tb = UTCDateTime(int(year),int(mon),int(day))
-            te = tb + dayleng
+            tb = UTCDateTime(int(year),int(mon),int(day)) + tbeg
+            te = tb + tend
             meta = meta.trim(tb, te, pad=True, fill_value=0)
             tb = meta[0].stats.starttime - origins
             filename = "%04d_%02d_%02d_%08.2f_%s_%s_mseed" % (int(year),int(mon),int(day),tb,net,sta)
