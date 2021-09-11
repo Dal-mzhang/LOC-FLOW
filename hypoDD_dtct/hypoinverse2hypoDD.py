@@ -59,6 +59,7 @@ def format_convert(phaseinput,phaseoutput,nrms,ngap,nres,maxdep,maxdeperr,maxdis
                     year1 = int(line[17:21])
                     mon1 = int(line[21:23])
                     day1 = int(line[23:25])
+                    sac1 = sac # initialize sac1
                     if line[13:15] == ' P' or line[13:15] == 'IP':
                         hour1 = int(line[25:27])
                         min1 = int(line[27:29])
