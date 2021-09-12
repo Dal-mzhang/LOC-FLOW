@@ -35,7 +35,6 @@ def format_convert(phaseinput,phaseoutput,nrms,ngap,nres,maxdep,maxdeperr,maxdis
                     hour = int(line[8:10])
                     min = int(line[10:12])
                     sec = int(line[12:16])/100
-                    d0 = datetime.datetime(year, mon, day, hour, min, int(math.modf(sec)[1]), int((math.modf(sec)[0]) * 1000000))
 
                     if line[18] == ' ': #N
                         lat = (float(line[16:18]) + float(line[19:23]) / 6000)
@@ -59,39 +58,24 @@ def format_convert(phaseinput,phaseoutput,nrms,ngap,nres,maxdep,maxdeperr,maxdis
                     year1 = int(line[17:21])
                     mon1 = int(line[21:23])
                     day1 = int(line[23:25])
-                    sac1 = sac # initialize sac1
-                    if line[13:15] == ' P' or line[13:15] == 'IP':
-                        hour1 = int(line[25:27])
-                        min1 = int(line[27:29])
-                        P_residual = abs(int(line[34:38]) / 100)
-                        sec1 = int(line[29:34]) / 100
-                        if sec1 >= 60:
-                            min1 = min1 + int(sec1//60)
-                            sec1 = sec1%60
-                        if min1 >= 60:
-                            hour1 = hour1 + int(min1 // 60)
-                            min1 = min1 % 60
+                    hour1 = int(line[25:27])
+                    min1 = int(line[27:29])
 
-                        d1 = datetime.datetime(year1, mon1, day1, hour1, min1, int(math.modf(sec1)[1]), int((math.modf(sec1)[0]) * 1000000))
-                        if sec1 > sec and P_residual <= nres*RMS:
-                            tpick = (d1-d0).seconds + ((d1-d0).microseconds)/1000000
-                            g.write('{:<5s}    {:8.3f}   1.000   P\n'.format(station, tpick))
+                    if year1 == year and mon1 == mon and day1 == day and hour1 == hour and min1 == min:
+                        sec_p =sec
+                        if line[13:15] == ' P' or line[13:15] == 'IP':
+                            P_residual = abs(int(line[34:38]) / 100)
+                            sec_p = int(line[29:34]) / 100
+                            if sec_p > sec and P_residual <= nres*RMS:
+                                ppick = sec_p-sec
+                                g.write('{:<5s}    {:8.3f}   1.000   P\n'.format(station, ppick))
 
-                    if line[46:48] == ' S' or line[46:48] == 'ES':
-                        hour1 = int(line[25:27])
-                        min1 = int(line[27:29])
-                        S_residual = abs(int(line[50:54]) / 100)
-                        sec2 = int(line[41:46]) / 100
-                        if sec2 >= 60:
-                            min1 = min1 + int(sec2 // 60)
-                            sec2 = sec2 % 60
-                        if min1 >= 60:
-                            hour1 = hour1 + int(min1 // 60)
-                            min1 = min1 % 60
-                        d2 = datetime.datetime(year1, mon1, day1, hour1, min1, int(math.modf(sec2)[1]), int((math.modf(sec2)[0]) * 1000000))
-                        if sec2 > sec1 and S_residual <= nres * RMS:
-                            tpick = (d2 - d0).seconds + ((d2 - d0).microseconds) / 1000000
-                            g.write('{:<5s}    {:8.3f}   1.000   S\n'.format(station, tpick))
+                        if line[46:48] == ' S' or line[46:48] == 'ES':
+                            S_residual = abs(int(line[50:54]) / 100)
+                            sec_s = int(line[41:46]) / 100
+                            if sec_s > sec_p and S_residual <= nres * RMS:
+                                spick = sec_s-sec
+                                g.write('{:<5s}    {:8.3f}   1.000   S\n'.format(station, spick))
     f.close()
     g.close()
 
