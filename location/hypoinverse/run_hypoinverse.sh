@@ -31,10 +31,10 @@ nEH=5       #  horizontal uncertainty no larger than this
 nEZ=5      #  vertical uncertainty no larger than this
 ngap=300    #  station gap no larger than this
 nrms=0.5    #  travetime residual no larger than this
+year=2016   #  year of events
 
-#remember to replace "2016"
-cat hypoOut.arc|gawk '{if(substr($0,1,4) == 2016)print substr($1,1,4),substr($1,5,2),substr($1,7,2),substr($1,9,2),substr($1,11,2),substr($1,13,4)/100,substr($1,17,2)+substr($0,20,4)/6000,substr($0,24,3)+substr($0,28,4)/6000,substr($0,33,4)/100,substr($0,124,3)/100,substr($0,49,4)/100,substr($0,86,4)/100,substr($0,90,4)/100, substr($0,43,3)}'|awk '{if ($12<='"$nEH"' && $13<='"$nEZ"' && $14<='"$ngap"' && $11<='"$nrms"') {printf "%4s%2s%2s %2d %2d %5.2f %7.4f %8.4f %5.2f %5.2f %5.2f %5.2f %5.2f %d\n",$1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,NR}}' > new.cat
+cat hypoOut.arc|gawk -v y="$year" '{if(substr($0,1,4) == y)print substr($1,1,4),substr($1,5,2),substr($1,7,2),substr($1,9,2),substr($1,11,2),substr($1,13,4)/100,substr($1,17,2)+substr($0,20,4)/6000,substr($0,24,3)+substr($0,28,4)/6000,substr($0,33,4)/100,substr($0,124,3)/100,substr($0,49,4)/100,substr($0,86,4)/100,substr($0,90,4)/100, substr($0,43,3)}'|awk '{if ($12<='"$nEH"' && $13<='"$nEZ"' && $14<='"$ngap"' && $11<='"$nrms"') {printf "%4s%2s%2s %2d %2d %5.2f %7.4f %8.4f %5.2f %5.2f %5.2f %5.2f %5.2f %d\n",$1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,NR}}' > new.cat
 
-cat hypoOut.arc|gawk '{if(substr($0,1,4) == 2016)print substr($1,1,4),substr($1,5,2),substr($1,7,2),substr($1,9,2),substr($1,11,2),substr($1,13,4)/100,substr($1,17,2)+substr($0,20,4)/6000,substr($0,24,3)+substr($0,28,4)/6000,substr($0,33,4)/100,substr($0,124,3)/100,substr($0,49,4)/100,substr($0,86,4)/100,substr($0,90,4)/100, substr($0,43,3)}'|gawk '{if ($12<='"$nEH"' && $13<='"$nEZ"' && $14<='"$ngap"' && $11<='"$nrms"') {} else {printf "%4s%2s%2s %2d %2d %5.2f %7.4f %8.4f %5.2f %5.2f %5.2f %5.2f %5.2f %d\n",$1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,NR}}' > dele.cat
+cat hypoOut.arc|gawk -v y="$year" '{if(substr($0,1,4) == y)print substr($1,1,4),substr($1,5,2),substr($1,7,2),substr($1,9,2),substr($1,11,2),substr($1,13,4)/100,substr($1,17,2)+substr($0,20,4)/6000,substr($0,24,3)+substr($0,28,4)/6000,substr($0,33,4)/100,substr($0,124,3)/100,substr($0,49,4)/100,substr($0,86,4)/100,substr($0,90,4)/100, substr($0,43,3)}'|gawk '{if ($12<='"$nEH"' && $13<='"$nEZ"' && $14<='"$ngap"' && $11<='"$nrms"') {} else {printf "%4s%2s%2s %2d %2d %5.2f %7.4f %8.4f %5.2f %5.2f %5.2f %5.2f %5.2f %d\n",$1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,NR}}' > dele.cat
 
 #Format: date, hh, mm, ss, lat, lon, dep, mag, rms, err_horizonal, err_dep, num
