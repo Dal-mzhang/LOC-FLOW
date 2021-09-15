@@ -22,7 +22,10 @@ def format_convert(phaseinput,phaseoutput,nrms,ngap,maxdep):
                 if RMS <= nrms and gap <= ngap and dep <= maxdep:
                     line = line.strip('\n')
                     nn = nn + 1
-                    year = year0 + line[0:2]
+                    if int(line[0:2]) < 10: 
+                        year = year0 + '0' + str(int(line[0:2]))
+                    else:
+                        year = year0 + line[0:2]
                     mon = int(line[2:4])
                     day = int(line[4:6])
                     hour = int(line[7:9])
