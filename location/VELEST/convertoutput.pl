@@ -23,9 +23,10 @@ open(DE,">$dele");
 foreach $_(@par){
 	chomp($_);
 	if(looks_like_number(substr($_,0,2))){
-	$year = substr($_,0,2);
+	$year = substr($_,0,2); $year=~s/^\s+//;
     $mon = substr($_,2,2); $mon=~s/^\s+//;
     $day = substr($_,4,2); $day=~s/^\s+//;
+    if(length($year) == 1){$year = "0$year";}
     if(length($mon) == 1){$mon = "0$mon";}
     if(length($day) == 1){$day = "0$day";}
 
