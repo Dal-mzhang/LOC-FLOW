@@ -124,3 +124,6 @@ for i in range(nday):
             p.write(station)
 o.close()
 f.close()
+p.close()
+
+os.system ("cat {} | sort -u -k 4 | uniq > uniq_st.dat && mv uniq_st.dat {}".format (stationsel, stationsel))
