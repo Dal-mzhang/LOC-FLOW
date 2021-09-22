@@ -158,3 +158,5 @@ for i in range(nday):
     
     print("Data on %04d-%02d-%02d found" % (int(year),int(mon),int(day)))
 o.close()
+
+os.system ("cat {} | sort -u -k 4 | uniq > uniq_st.dat && mv uniq_st.dat {}".format (fname, fname)) # remove duplicated stations
