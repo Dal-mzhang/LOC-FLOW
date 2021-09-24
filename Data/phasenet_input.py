@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/bin/python -w
 # coding: utf-8
 
 # Import modules
@@ -20,34 +20,30 @@ mon0 = 10 # month
 day0 = 14 #day
 nday = 1 # number of days
 tbeg = 0 # beginning time
-tend = 3000 # ending time
-#tend = 86400 # ending time, the whole day
+         # the length will be as long as the data in waveform_sac
 
 # Station region
 latref = 42.75 # reference lat.
 lonref = 13.25 # reference lon.
 maxradius = 50 # maximum radius in km.
-numberofcomp = 3 # 1: use either Z or E,N,Z (PhaseNet works for either one)
-                 # 3: use E,N,Z (STA/LTA requires three components)
-                 #    current FDTCC requires two horizontal components to calculate dtcc for S phase pairs
+threecomp = 1 # 1: use three components E/N/Z
+              # 0: use E/N/Z, E/Z, N/Z, Z
+              # It is fine to use either one before the dt.cc calculation.
+              # NOTE: FDTCC use ENZ only by default. 
+              #       Want to use Z alone? change E and N to Z in FDTCC.c.
 
 data_dir = os.getcwd()
 sac_waveform_dir = os.path.join(data_dir, "waveform_sac")
-processed_waveform_dir = os.path.join(data_dir, "waveform_phasenet")
 stationdir = os.path.join(data_dir,"station_all.dat")
 stationsel = os.path.join(data_dir,"station.dat")
 
 fname = os.path.join(data_dir,"fname.csv")
 p = open(stationsel,"w")
 o = open(fname,"w")
-o.write('fname\n')
+o.write('fname E N Z\n')
 
 if not os.path.isdir(sac_waveform_dir):
     print("No this directory ",sac_waveform_dir)
-
-if os.path.isdir(processed_waveform_dir):
-    shutil.rmtree(processed_waveform_dir)
-os.mkdir(processed_waveform_dir)
 
 for i in range(nday):
     origins = UTCDateTime(year0,mon0,day0) + 86400*i
@@ -72,56 +68,31 @@ for i in range(nday):
             if dist > maxradius:
                 continue
             
-            if not os.path.exists(tracez):
+            tb = UTCDateTime(int(year),int(mon),int(day)) + tbeg
+            
+            try:
+                trz = read(tracez)
+            except:
+                print('no station',net,sta)
                 continue
 
-            if os.path.exists(tracee) and os.path.exists(tracen) and os.path.exists(tracez):
-            
-                meta = obspy.Stream()
-            
-                # Although PhaseNet was trained using raw data without filtering,
-                # highpass filtered waveforms have a better performace.
-                tre = read(tracee)
-                tre.detrend('demean')
-                tre.detrend('linear')
-                tre.filter(type="highpass",freq=1.0,zerophase=False)
-            
-                trn = read(tracen)
-                trn.detrend('demean')
-                trn.detrend('linear')
-                trn.filter(type="highpass",freq=1.0,zerophase=False)
-            
-                trz = read(tracez)
-                trz.detrend('demean')
-                trz.detrend('linear')
-                trz.filter(type="highpass",freq=1.0,zerophase=False)
-            
-                meta = tre + trn + trz
+            tb = trz[0].stats.starttime - origins
+            filename = "%04d_%02d_%02d_%08.2f_%s_%s_sac" % (int(year),int(mon),int(day),tb,net,sta)
+            if threecomp == 1:
+                if os.path.exists(tracee) and os.path.exists(tracen) and os.path.exists(tracez):
+                    o.write('{} {} {} {}\n'.format(filename,year+mon+day+'/'+net+'.'+sta+'.'+chane,year+mon+day+'/'+net+'.'+sta+'.'+chann,year+mon+day+'/'+net+'.'+sta+'.'+chanz))
+                    p.write(station)
             else:
-                
-                if numberofcomp == 1:
-                    meta = obspy.Stream()
+                if os.path.exists(tracee) and os.path.exists(tracez):
+                    o.write('{} {} {}\n'.format(filename,year+mon+day+'/'+net+'.'+sta+'.'+chane,year+mon+day+'/'+net+'.'+sta+'.'+chanz))
+                    p.write(station)
+                if os.path.exists(tracen) and os.path.exists(tracez):
+                    o.write('{} {} {}\n'.format(filename,year+mon+day+'/'+net+'.'+sta+'.'+chann,year+mon+day+'/'+net+'.'+sta+'.'+chanz))
+                    p.write(station)
+                if os.path.exists(tracez):
+                    o.write('{} {}\n'.format(filename,year+mon+day+'/'+net+'.'+sta+'.'+chanz))
+                    p.write(station)
 
-                    trz = read(tracez)
-                    trz.detrend('demean')
-                    trz.detrend('linear')
-                    trz.filter(type="highpass",freq=1.0,zerophase=False)
-                    
-                    meta = trz
-                elif numberofcomp == 3:
-                    continue
-                else:
-                    print('use vertical component or three components? try numberofcomp=1 or 3')
-
-            tb = UTCDateTime(int(year),int(mon),int(day)) + tbeg
-            te = tb + tend
-            meta = meta.trim(tb, te, pad=True, fill_value=0)
-            tb = meta[0].stats.starttime - origins
-            filename = "%04d_%02d_%02d_%08.2f_%s_%s_mseed" % (int(year),int(mon),int(day),tb,net,sta)
-            mseed = os.path.join(processed_waveform_dir,filename)
-            meta.write(mseed, format="mseed")
-            o.write('{}\n'.format(filename))
-            p.write(station)
 o.close()
 f.close()
 p.close()
