@@ -15,7 +15,7 @@ print("################\nrun PhaseNet\n###############")
 # Remove the previous directory
 #if os.path.isdir("results"):
 #    shutil.rmtree("results")
-command = "python ../../src/PhaseNet/phasenet/predict.py --mode=pred --model_dir=../../src/PhaseNet/model/190703-214543 --data_dir=../../Data/waveform_phasenet --data_list=../../Data/fname.csv --format=mseed --amplitude"
+command = "python ../../src/PhaseNet/phasenet/predict.py --mode=pred --model_dir=../../src/PhaseNet/model/190703-214543 --data_dir=../../Data/waveform_sac --data_list=../../Data/fname.csv --format=sac --highpass_filter=1 --amplitude"
 print(command)
 os.system(command)
 
