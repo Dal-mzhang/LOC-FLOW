@@ -157,6 +157,8 @@ for i in range(nday):
         tr.write(traceid, format="SAC")
     
     print("Data on %04d-%02d-%02d found" % (int(year),int(mon),int(day)))
+    shutil.rmtree(eventid_dir)
 o.close()
 
+shutil.rmtree(raw_waveform_dir)
 os.system ("cat {} | sort -u -k 4 | uniq > uniq_st.dat && mv uniq_st.dat {}".format (fname, fname)) # remove duplicated stations
