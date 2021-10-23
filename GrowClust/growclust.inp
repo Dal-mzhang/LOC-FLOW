@@ -55,7 +55,7 @@ TT/tt.sg
 * rmin  delmax rmsmax 
   0.6    120    0.2
 * rpsavgmin, rmincut  ngoodmin   iponly 
-   0          0.65       5        0
+   0          0.6       8        0
 *
 ******************************************
 ************ Output files ****************
