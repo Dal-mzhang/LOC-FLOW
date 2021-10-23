@@ -153,6 +153,8 @@ class SeismicReport(object):
             # if len(event.stations) < 15:
             #     continue
             hour, minute, second = event.stime.split(':')
+            if(int(hour) < 0 or int(minute) < 0 or float(second) < 0): 
+                continue
             mag1,mag2 = event.mag.split('.')
             mag1 = int(mag1)
             mag2 = int(mag2[0:2])
