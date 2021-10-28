@@ -71,7 +71,7 @@ for i in range(nday):
                     st.detrend("demean")
                     st.detrend("linear")
                     pre_filt = [0.001, 0.002, 25, 30]
-                    st.remove_response(pre_filt=pre_filt,water_level=10,taper=True,taper_fraction=0.00001)
+                    st.remove_response(pre_filt=pre_filt,water_level=60,taper=True,taper_fraction=0.00001)
                     st[0].stats.sac = dict()
                     st[0].stats.sac.stla = stla
                     st[0].stats.sac.stlo = stlo
@@ -87,7 +87,7 @@ for i in range(nday):
                         st.detrend("demean")
                         st.detrend("linear")
                         pre_filt = [0.001, 0.002, 25, 30]
-                        st.remove_response(pre_filt=pre_filt,water_level=10,taper=True,taper_fraction=0.00001)
+                        st.remove_response(pre_filt=pre_filt,water_level=60,taper=True,taper_fraction=0.00001)
                         st[0].stats.sac = dict()
                         st[0].stats.sac.stla = stla
                         st[0].stats.sac.stlo = stlo
