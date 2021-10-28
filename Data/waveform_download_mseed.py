@@ -141,7 +141,7 @@ for i in range(nday):
     st.interpolate(sampling_rate=samplingrate,startime=tb)
     pre_filt = [0.001, 0.002, 25, 30]
     st.attach_response(inv)
-    st.remove_response(pre_filt=pre_filt,water_level=10,taper=True,taper_fraction=0.00001)
+    st.remove_response(pre_filt=pre_filt,water_level=60,taper=True,taper_fraction=0.00001)
     obspy_to_sac_header(st, inv)
     st.rotate(method="->ZNE", inventory=inv) #rotate to ZNE, optional, recommended, FDTCC only recognizes ENZ
     sacid_dir = os.path.join(processed_waveform_dir,"%04d%02d%02d" % (int(year),int(mon),int(day)))
