@@ -49,6 +49,7 @@ then
         #conda activate phasenet 
         #You have to manually activate the python environment before run the script
         python runphasenet.py
+        sleep 0.5
         cd ../../
     else
         echo 'please select your picker'
