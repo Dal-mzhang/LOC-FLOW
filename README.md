@@ -18,6 +18,6 @@ Users are free to make modifications to the programs to meet their particular ne
 
 Please download (src/software_download.py) and regularly check source code updates: PhaseNet: https://github.com/wayneweiqiang/PhaseNet; REAL: https://github.com/Dal-mzhang/REAL; FDTCC: https://github.com/MinLiu19/FDTCC; hypoDD: https://www.ldeo.columbia.edu/~felixw/hypoDD.html; GrowClust: https://github.com/dttrugman/GrowClust; Match&Locate: https://github.com/Dal-mzhang/MatchLocate2; HYPOINVERSE: https://www.usgs.gov/software/hypoinverse-earthquake-location
 
-A Chinese tutorial at https://drive.google.com/file/d/1zlaubeYgmQnBeCO9dz627HXrtrwy79rm/view (recorded video at https://www.koushare.com/video/videodetail/14767)
+A Chinese tutorial at https://drive.google.com/file/d/1zlaubeYgmQnBeCO9dz627HXrtrwy79rm/view?usp=sharing (recorded video at https://www.koushare.com/video/videodetail/14767)
 
 Questions and comments? Email Miao Zhang (miao.zhang@dal.ca)                                                                      
