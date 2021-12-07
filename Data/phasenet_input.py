@@ -83,13 +83,16 @@ for i in range(nday):
                     o.write('{} {} {} {}\n'.format(filename,year+mon+day+'/'+net+'.'+sta+'.'+chane,year+mon+day+'/'+net+'.'+sta+'.'+chann,year+mon+day+'/'+net+'.'+sta+'.'+chanz))
                     p.write(station)
             else:
-                if os.path.exists(tracee) and os.path.exists(tracez):
+                if os.path.exists(tracee) and os.path.exists(tracen) and os.path.exists(tracez):
+                    o.write('{} {} {} {}\n'.format(filename,year+mon+day+'/'+net+'.'+sta+'.'+chane,year+mon+day+'/'+net+'.'+sta+'.'+chann,year+mon+day+'/'+net+'.'+sta+'.'+chanz))
+                    p.write(station)
+                elif os.path.exists(tracee) and os.path.exists(tracez):
                     o.write('{} {} {}\n'.format(filename,year+mon+day+'/'+net+'.'+sta+'.'+chane,year+mon+day+'/'+net+'.'+sta+'.'+chanz))
                     p.write(station)
-                if os.path.exists(tracen) and os.path.exists(tracez):
+                elif os.path.exists(tracen) and os.path.exists(tracez):
                     o.write('{} {} {}\n'.format(filename,year+mon+day+'/'+net+'.'+sta+'.'+chann,year+mon+day+'/'+net+'.'+sta+'.'+chanz))
                     p.write(station)
-                if os.path.exists(tracez):
+                elif os.path.exists(tracez):
                     o.write('{} {}\n'.format(filename,year+mon+day+'/'+net+'.'+sta+'.'+chanz))
                     p.write(station)
 
