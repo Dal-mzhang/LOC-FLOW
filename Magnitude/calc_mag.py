@@ -29,6 +29,10 @@ with open(phasedir) as p:
         if string == '#':
             string, year, mon, day, hour, minute, tmp, lat, lon, dep, mag0, jk1, jk2, jk3, num = lines.split()
             sec,msec=tmp.split('.')
+            if(len(mon)==1):
+                mon='0'+mon
+            if(len(day)==1):
+                day='0'+day
             date = year+mon+day
             if i>0:
                 #net_mag = np.mean(mags)
