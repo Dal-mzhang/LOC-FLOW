@@ -24,6 +24,6 @@ Questions and comments? Email Miao Zhang (miao.zhang@dal.ca)
 
 References:
 
-Miao Zhang, Min Liu, Ruijia Wang, Tian Feng and Weiqiang Zhu. LOC-FLOW: An End-to-end High Precision Earthquake Location Workflow. AGU Fall Meeting, 2021
+Miao Zhang, Min Liu, Ruijia Wang, Tian Feng and Weiqiang Zhu. LOC-FLOW: An End-to-end High Precision Earthquake Location Workflow. Presented at AGU Fall Meeting, online, 13–17 December, Abstract S45E-0341, 2021
 
 Miao Zhang, Min Liu, Tian Feng, Ruijia Wang and Weiqiang Zhu. LOC-FLOW: An End-to-End Machine-Learning-Based High-Precision Earthquake Location Workflow (submitted to SRL), 2022
