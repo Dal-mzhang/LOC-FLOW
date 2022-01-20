@@ -42,13 +42,19 @@ dep2=20
 nddp=0;
 #nddp=5;
 
-lon_range=5 # lon_range=5i
-lat_range=$(printf "%.3f" `echo "scale=4;($lat2-$lat1)*$lon_range/($lon2-$lon1)"|bc`)
-dep_range=$(printf "%.3f" `echo "scale=4;($dep2-$dep1)*$lon_range/(($lon2-$lon1)*111.19)"|bc`)
+dlat=`echo "$lat2 - $lat1" | bc`
+dlon=`echo "$lon2 - $lon1" | bc`
+absdlat=${dlat#-}
+absdlon=${dlon#-}
+absdlon=`echo "$absdlon * c(($lat1 + $lat2)/2*3.1415926/180)" | bc -l`
 
-lon_range=`echo $lon_range|awk '{print $1"i"}'`  # lon_range=5i
-lat_range=`echo $lat_range|awk '{print $1"i"}'`  # lat_range=6i
-dep_range=`echo $dep_range|awk '{print $1"i"}'`  # dep_range=1.799i
+lon_range=5 # lon_range=5i
+lat_range=$(printf "%.3f" `echo "scale=4;$absdlat*$lon_range/$absdlon"|bc`)
+dep_range=$(printf "%.3f" `echo "scale=4;($dep2-$dep1)*$lon_range/($absdlon*111.19)"|bc`)
+
+lon_range=`echo $lon_range|awk '{print $1"i"}'`  
+lat_range=`echo $lat_range|awk '{print $1"i"}'`  
+dep_range=`echo $dep_range|awk '{print $1"i"}'`  
 
 
 ############################################## plot for REAL SA catalog
@@ -61,19 +67,19 @@ gmt subplot set 0,0
 projection="X$lon_range/$lat_range"
 region="$lon1/$lon2/$lat1/$lat2"
 gmt basemap -R$region -J$projection  -Bxa0.1 -Bya0.1+l"Latitude (deg.)" -BWSen
-cat $loc11|gawk  '{print $8, $7}'| gmt plot -Sc0.3c -W0.5p,black -Gred
+cat $loc11|gawk  '{print $8, $7}'| gmt plot -Sc0.2c -W0.5p,black -Gred
 
 gmt subplot set 0,1
 projection="X$dep_range/$lat_range"
 region="$dep1/$dep2/$lat1/$lat2"
 gmt basemap -R$region -J$projection  -Bxa5+l"Depth (km)" -Bya0.1 -BWSen
-cat $loc11|gawk  '{print $9, $7}'| gmt plot -Sc0.3c -W0.5p,black -Gred
+cat $loc11|gawk  '{print $9, $7}'| gmt plot -Sc0.2c -W0.5p,black -Gred
 
 gmt subplot set 1,0
 projection="X$lon_range/-$dep_range"
 region="$lon1/$lon2/$dep1/$dep2"
 gmt basemap -R$region -J$projection  -Bxa0.1+l"Longitude (deg.)" -Bya5+l"Depth (km)" -BWSen
-cat $loc11|gawk  '{print $8, $9}'| gmt plot -Sc0.3c -W0.5p,black -Gred
+cat $loc11|gawk  '{print $8, $9}'| gmt plot -Sc0.2c -W0.5p,black -Gred
 
 gmt subplot end
 gmt end show
@@ -90,19 +96,19 @@ gmt subplot set 0,0
 projection="X$lon_range/$lat_range"
 region="$lon1/$lon2/$lat1/$lat2"
 gmt basemap -R$region -J$projection  -Bxa0.1 -Bya0.1+l"Latitude (deg.)" -BWSen
-cat $loc12|gawk  '{print $6, $5}'| gmt plot -Sc0.3c -W0.5p,black -Gred
+cat $loc12|gawk  '{print $6, $5}'| gmt plot -Sc0.2c -W0.5p,black -Gred
 
 gmt subplot set 0,1
 projection="X$dep_range/$lat_range"
 region="$dep1/$dep2/$lat1/$lat2"
 gmt basemap -R$region -J$projection  -Bxa5+l"Depth (km)" -Bya0.1 -BWSen
-cat $loc12|gawk  '{print $7, $5}'| gmt plot -Sc0.3c -W0.5p,black -Gred
+cat $loc12|gawk  '{print $7, $5}'| gmt plot -Sc0.2c -W0.5p,black -Gred
 
 gmt subplot set 1,0
 projection="X$lon_range/-$dep_range"
 region="$lon1/$lon2/$dep1/$dep2"
 gmt basemap -R$region -J$projection  -Bxa0.1+l"Longitude (deg.)" -Bya5+l"Depth (km)" -BWSen
-cat $loc12|gawk  '{print $6, $7}'| gmt plot -Sc0.3c -W0.5p,black -Gred
+cat $loc12|gawk  '{print $6, $7}'| gmt plot -Sc0.2c -W0.5p,black -Gred
 
 gmt subplot end
 gmt end show
@@ -119,19 +125,19 @@ gmt subplot set 0,0
 projection="X$lon_range/$lat_range"
 region="$lon1/$lon2/$lat1/$lat2"
 gmt basemap -R$region -J$projection  -Bxa0.1 -Bya0.1+l"Latitude (deg.)" -BWSen
-cat $loc13|gawk  '{print $6, $5}'| gmt plot -Sc0.3c -W0.5p,black -Gred
+cat $loc13|gawk  '{print $6, $5}'| gmt plot -Sc0.2c -W0.5p,black -Gred
 
 gmt subplot set 0,1
 projection="X$dep_range/$lat_range"
 region="$dep1/$dep2/$lat1/$lat2"
 gmt basemap -R$region -J$projection  -Bxa5+l"Depth (km)" -Bya0.1 -BWSen
-cat $loc13|gawk  '{print $7, $5}'| gmt plot -Sc0.3c -W0.5p,black -Gred
+cat $loc13|gawk  '{print $7, $5}'| gmt plot -Sc0.2c -W0.5p,black -Gred
 
 gmt subplot set 1,0
 projection="X$lon_range/-$dep_range"
 region="$lon1/$lon2/$dep1/$dep2"
 gmt basemap -R$region -J$projection  -Bxa0.1+l"Longitude (deg.)" -Bya5+l"Depth (km)" -BWSen
-cat $loc13|gawk  '{print $6, $7}'| gmt plot -Sc0.3c -W0.5p,black -Gred
+cat $loc13|gawk  '{print $6, $7}'| gmt plot -Sc0.2c -W0.5p,black -Gred
 
 gmt subplot end
 gmt end show
@@ -148,19 +154,19 @@ gmt subplot set 0,0
 projection="X$lon_range/$lat_range"
 region="$lon1/$lon2/$lat1/$lat2"
 gmt basemap -R$region -J$projection  -Bxa0.1 -Bya0.1+l"Latitude (deg.)" -BWSen
-cat $loc2|gawk  '{if($20 >= '''$nddp''') print $3, $2}'| gmt plot -Sc0.3c -W0.5p,black -Gred
+cat $loc2|gawk  '{if($20 >= '''$nddp''') print $3, $2}'| gmt plot -Sc0.2c -W0.5p,black -Gred
 
 gmt subplot set 0,1
 projection="X$dep_range/$lat_range"
 region="$dep1/$dep2/$lat1/$lat2"
 gmt basemap -R$region -J$projection  -Bxa5+l"Depth (km)" -Bya0.1 -BWSen
-cat $loc2|gawk  '{if($20 >= '''$nddp''') print $4, $2}'| gmt plot -Sc0.3c -W0.5p,black -Gred
+cat $loc2|gawk  '{if($20 >= '''$nddp''') print $4, $2}'| gmt plot -Sc0.2c -W0.5p,black -Gred
 
 gmt subplot set 1,0
 projection="X$lon_range/-$dep_range"
 region="$lon1/$lon2/$dep1/$dep2"
 gmt basemap -R$region -J$projection  -Bxa0.1+l"Longitude (deg.)" -Bya5+l"Depth (km)" -BWSen
-cat $loc2|gawk '{if ($20 >= '''$nddp''') print $3, $4}'| gmt plot -Sc0.3c -W0.5p,black -Gred
+cat $loc2|gawk '{if ($20 >= '''$nddp''') print $3, $4}'| gmt plot -Sc0.2c -W0.5p,black -Gred
 
 gmt subplot end
 gmt end show
@@ -177,19 +183,19 @@ gmt subplot set 0,0
 projection="X$lon_range/$lat_range"
 region="$lon1/$lon2/$lat1/$lat2"
 gmt basemap -R$region -J$projection  -Bxa0.1 -Bya0.1+l"Latitude (deg.)" -BWSen
-cat $loc3|gawk  '{if($18 >= '''$nddp''') print $3, $2}'| gmt plot -Sc0.3c -W0.5p,black -Gred
+cat $loc3|gawk  '{if($18 >= '''$nddp''') print $3, $2}'| gmt plot -Sc0.2c -W0.5p,black -Gred
 
 gmt subplot set 0,1
 projection="X$dep_range/$lat_range"
 region="$dep1/$dep2/$lat1/$lat2"
 gmt basemap -R$region -J$projection  -Bxa5+l"Depth (km)" -Bya0.1 -BWSen
-cat $loc3|gawk  '{if($18 >= '''$nddp''') print $4, $2}'| gmt plot -Sc0.3c -W0.5p,black -Gred
+cat $loc3|gawk  '{if($18 >= '''$nddp''') print $4, $2}'| gmt plot -Sc0.2c -W0.5p,black -Gred
 
 gmt subplot set 1,0
 projection="X$lon_range/-$dep_range"
 region="$lon1/$lon2/$dep1/$dep2"
 gmt basemap -R$region -J$projection  -Bxa0.1+l"Longitude (deg.)" -Bya5+l"Depth (km)" -BWSen
-cat $loc3|gawk  '{if($18 >= '''$nddp''') print $3, $4}'| gmt plot -Sc0.3c -W0.5p,black -Gred
+cat $loc3|gawk  '{if($18 >= '''$nddp''') print $3, $4}'| gmt plot -Sc0.2c -W0.5p,black -Gred
 
 gmt subplot end
 gmt end show
@@ -206,19 +212,19 @@ gmt subplot set 0,0
 projection="X$lon_range/$lat_range"
 region="$lon1/$lon2/$lat1/$lat2"
 gmt basemap -R$region -J$projection  -Bxa0.1 -Bya0.1+l"Latitude (deg.)" -BWSen
-cat $loc4|gawk  '{if($16 >= '''$nddp''') print $9, $8}'| gmt plot -Sc0.3c -W0.5p,black -Gred
+cat $loc4|gawk  '{if($16 >= '''$nddp''') print $9, $8}'| gmt plot -Sc0.2c -W0.5p,black -Gred
 
 gmt subplot set 0,1
 projection="X$dep_range/$lat_range"
 region="$dep1/$dep2/$lat1/$lat2"
 gmt basemap -R$region -J$projection  -Bxa5+l"Depth (km)" -Bya0.1 -BWSen
-cat $loc4|gawk '{if($16 >= '''$nddp''') print $10, $8}'| gmt plot -Sc0.3c -W0.5p,black -Gred
+cat $loc4|gawk '{if($16 >= '''$nddp''') print $10, $8}'| gmt plot -Sc0.2c -W0.5p,black -Gred
 
 gmt subplot set 1,0
 projection="X$lon_range/-$dep_range"
 region="$lon1/$lon2/$dep1/$dep2"
 gmt basemap -R$region -J$projection  -Bxa0.1+l"Longitude (deg.)" -Bya5+l"Depth (km)" -BWSen
-cat $loc4|gawk '{if($16 >= '''$nddp''') print $9, $10}'| gmt plot -Sc0.3c -W0.5p,black -Gred
+cat $loc4|gawk '{if($16 >= '''$nddp''') print $9, $10}'| gmt plot -Sc0.2c -W0.5p,black -Gred
 
 gmt subplot end
 gmt end show
