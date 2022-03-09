@@ -122,7 +122,6 @@ then
 elif (($hypo == 3))
 then
     echo 'VELEST first, hypoinverse second'
-    #newly developed, not well tested
     cd VELEST
     mode=0
     bash run_velest.sh $mode
