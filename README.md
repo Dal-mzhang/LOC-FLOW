@@ -36,6 +36,9 @@ Zhang, M., W. L. Ellsworth, and G. C. Beroza (2019). Rapid earthquake associatio
 VELEST:  
 Kissling, E., W. L. Ellsworth, D. Eberhart-Phillips, and U. Kradolfer (1994). Initial reference models in local earthquake tomography, J. Geophys. Res. 99, no. B10, 19,635–19,646, doi: 10.1029/93JB03138.  
 
+HYPOINVERSE:  
+Klein, F. W. (2002). User’s guide to HYPOINVERSE-2000, a Fortran program to solve for earthquake locations and magnitudes, U.S. Geol. Surv. Open-File Rept. 2002-171, doi: 10.3133/ofr02171.  
+
 HypoDD:  
 Waldhauser, F., and W. L. Ellsworth (2000). A double-difference earthquake location algorithm: Method and application to the northern Hayward fault, California, Bull. Seismol. Soc. Am. 90, no. 6, 1353–1368, doi: 10.1785/0120000006.  
 
