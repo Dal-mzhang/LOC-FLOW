@@ -22,7 +22,8 @@ open(OT,">$relo");
 open(DE,">$dele");
 foreach $_(@par){
 	chomp($_);
-	if(looks_like_number(substr($_,0,2))){
+	#if(looks_like_number(substr($_,0,2))){
+	if(substr($_,25,1) eq 'N' || substr($_,25,1) eq 'S'){
 	$year = substr($_,0,2); $year=~s/^\s+//;
     $mon = substr($_,2,2); $mon=~s/^\s+//;
     $day = substr($_,4,2); $day=~s/^\s+//;
