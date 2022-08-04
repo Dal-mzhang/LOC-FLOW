@@ -40,7 +40,7 @@ stationsel = os.path.join(data_dir,"station.dat")
 fname = os.path.join(data_dir,"fname.csv")
 p = open(stationsel,"w")
 o = open(fname,"w")
-o.write('fname E N Z\n')
+o.write('fname\n')
 
 if not os.path.isdir(sac_waveform_dir):
     print("No this directory ",sac_waveform_dir)
@@ -78,23 +78,26 @@ for i in range(nday):
 
             tb = trz[0].stats.starttime - origins
             filename = "%04d_%02d_%02d_%08.2f_%s_%s_sac" % (int(year),int(mon),int(day),tb,net,sta)
-            if threecomp == 1:
-                if os.path.exists(tracee) and os.path.exists(tracen) and os.path.exists(tracez):
-                    o.write('{} {} {} {}\n'.format(filename,year+mon+day+'/'+net+'.'+sta+'.'+chane,year+mon+day+'/'+net+'.'+sta+'.'+chann,year+mon+day+'/'+net+'.'+sta+'.'+chanz))
-                    p.write(station)
-            else:
-                if os.path.exists(tracee) and os.path.exists(tracen) and os.path.exists(tracez):
-                    o.write('{} {} {} {}\n'.format(filename,year+mon+day+'/'+net+'.'+sta+'.'+chane,year+mon+day+'/'+net+'.'+sta+'.'+chann,year+mon+day+'/'+net+'.'+sta+'.'+chanz))
-                    p.write(station)
-                elif os.path.exists(tracee) and os.path.exists(tracez):
-                    o.write('{} {} {}\n'.format(filename,year+mon+day+'/'+net+'.'+sta+'.'+chane,year+mon+day+'/'+net+'.'+sta+'.'+chanz))
-                    p.write(station)
-                elif os.path.exists(tracen) and os.path.exists(tracez):
-                    o.write('{} {} {}\n'.format(filename,year+mon+day+'/'+net+'.'+sta+'.'+chann,year+mon+day+'/'+net+'.'+sta+'.'+chanz))
-                    p.write(station)
-                elif os.path.exists(tracez):
-                    o.write('{} {}\n'.format(filename,year+mon+day+'/'+net+'.'+sta+'.'+chanz))
-                    p.write(station)
+            # if threecomp == 1:
+            #     if os.path.exists(tracee) and os.path.exists(tracen) and os.path.exists(tracez):
+            #         o.write('{} {} {} {}\n'.format(filename,year+mon+day+'/'+net+'.'+sta+'.'+chane,year+mon+day+'/'+net+'.'+sta+'.'+chann,year+mon+day+'/'+net+'.'+sta+'.'+chanz))
+            #         p.write(station)
+            # else:
+            #     if os.path.exists(tracee) and os.path.exists(tracen) and os.path.exists(tracez):
+            #         o.write('{} {} {} {}\n'.format(filename,year+mon+day+'/'+net+'.'+sta+'.'+chane,year+mon+day+'/'+net+'.'+sta+'.'+chann,year+mon+day+'/'+net+'.'+sta+'.'+chanz))
+            #         p.write(station)
+            #     elif os.path.exists(tracee) and os.path.exists(tracez):
+            #         o.write('{} {} {}\n'.format(filename,year+mon+day+'/'+net+'.'+sta+'.'+chane,year+mon+day+'/'+net+'.'+sta+'.'+chanz))
+            #         p.write(station)
+            #     elif os.path.exists(tracen) and os.path.exists(tracez):
+            #         o.write('{} {} {}\n'.format(filename,year+mon+day+'/'+net+'.'+sta+'.'+chann,year+mon+day+'/'+net+'.'+sta+'.'+chanz))
+            #         p.write(station)
+            #     elif os.path.exists(tracez):
+            #         o.write('{} {}\n'.format(filename,year+mon+day+'/'+net+'.'+sta+'.'+chanz))
+            #         p.write(station)
+            if os.path.exists(tracee) or os.path.exists(tracen) or os.path.exists(tracez):
+                o.write('{}\n'.format(year+mon+day+'/'+net+'.'+sta+'.'+chanz[:-1]+"*"))
+                p.write(station)
 
 o.close()
 f.close()
