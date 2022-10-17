@@ -33,10 +33,10 @@ samplingrate = 0.01 #samplingrate of your data, default 100 hz
 f = open(output1,'w')
 g = open(output2,'w')
 data = pd.read_csv(pickfile, parse_dates=["begin_time", "phase_time"])
-data = data[data["phase_score"] >= prob_threshold]
+data = data[data["phase_score"] >= prob_threshold].reset_index(drop=True)
 
 data[["year", "mon", "day"]] = data["begin_time"].apply(lambda x: pd.Series([x.year, x.month, x.day]))
-data["ss"] = data["begin_time"].apply(lambda x: (x - datetime.fromisoformat(f"{x.year}-{x.month}-{x.day}")).total_seconds())
+data["ss"] = data["begin_time"].apply(lambda x: (x - datetime.fromisoformat(f"{x.year:04d}-{x.month:02d}-{x.day:02d}")).total_seconds())
 data[["net", "name", "channel"]] = data["station_id"].apply(lambda x: pd.Series(x.split(".")))
 data["dum"] = pd.Series(np.ones(len(data)))
 data["phase_amp"] = data["phase_amp"] * 2080 * 20
