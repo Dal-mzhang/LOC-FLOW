@@ -35,7 +35,7 @@ g = open(output2,'w')
 data = pd.read_csv(pickfile, parse_dates=["begin_time", "phase_time"])
 data = data[data["phase_score"] >= prob_threshold].reset_index(drop=True)
 
-data[["year", "mon", "day"]] = data["begin_time"].apply(lambda x: pd.Series([x.year, x.month, x.day]))
+data[["year", "mon", "day"]] = data["begin_time"].apply(lambda x: pd.Series([f"{x.year:04d}", f"{x.month:02d}", f"{x.day:02d}"]))
 data["ss"] = data["begin_time"].apply(lambda x: (x - datetime.fromisoformat(f"{x.year:04d}-{x.month:02d}-{x.day:02d}")).total_seconds())
 data[["net", "name", "channel"]] = data["station_id"].apply(lambda x: pd.Series(x.split(".")))
 data["dum"] = pd.Series(np.ones(len(data)))
