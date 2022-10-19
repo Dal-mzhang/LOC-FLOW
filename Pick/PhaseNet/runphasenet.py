@@ -44,6 +44,10 @@ data["phase_time"] = data["ss"] + data["phase_index"] * samplingrate
 data[data["phase_type"] == "P"].to_csv(output1, columns=["year", "mon", "day", "net", "name", "dum", "phase_time", "phase_score", "phase_amp"], index=False, header=False)
 data[data["phase_type"] == "S"].to_csv(output2, columns=["year", "mon", "day", "net", "name", "dum", "phase_time", "phase_score", "phase_amp"], index=False, header=False)
 
+for i in range(len(data["file_name"])):
+    (pickfile,junk) = data["file_name"][i].split('/')
+    if os.path.isdir(pickfile):
+        shutil.rmtree(pickfile)
 #####################step 3####################
 print("################\ncreat pick files by date and station name\n###############")
 # separate picks based on date and station names
