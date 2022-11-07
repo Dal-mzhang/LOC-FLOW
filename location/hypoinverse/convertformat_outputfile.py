@@ -37,7 +37,7 @@ def format_convert(inputfile,outputfile,deletefile,nEH,nEZ,ngap,nrms):
                 if line[18] == ' ': #N
                     lat = (float(line[16:18]) + float(line[19:23]) / 6000)
                 else:
-                    lat = float(line[16:18]) + float(line[19:23])/6000 * (-1)
+                    lat = (float(line[16:18]) + float(line[19:23]) / 6000) * (-1)
 
                 if line[26] == 'E':
                     lon = (float(line[23:26]) + float(line[27:31]) / 6000)
