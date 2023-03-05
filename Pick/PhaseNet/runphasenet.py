@@ -37,7 +37,7 @@ data = data[data["phase_score"] >= prob_threshold]
 
 data[["year", "mon", "day"]] = data["begin_time"].apply(lambda x: pd.Series([x.year, x.month, x.day]))
 data["ss"] = data["begin_time"].apply(lambda x: (x - datetime.fromisoformat(f"{x.year}-{x.month}-{x.day}")).total_seconds())
-data[["net", "name", "channel"]] = data["station_id"].apply(lambda x: pd.Series(x.split(".")))
+data[["net", "name", "loc", "channel"]] = data["station_id"].apply(lambda x: pd.Series(x.split(".")))
 data["dum"] = pd.Series(np.ones(len(data)))
 data["phase_amp"] = data["phase_amp"] * 2080 * 20
 data["phase_time"] = data["ss"] + data["phase_index"] * samplingrate
