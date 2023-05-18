@@ -159,16 +159,23 @@ cd ./GrowClust
 bash run_growclust.sh
 cd ..
 
+#show preliminary location figures
+cd Plot
+bash plot_3dgmt.sh
+cd ..
+
 #--------------------------optional-----------------------
 ##########################in Magintude dir###############
 #An exmaple showing how to re-calculate local magnitude
 #Just an example, feel free to change as needed
 #cd Magnitude
 #python calc_mag.py
+#cd ..
 
 ##########################in MatchLocate dir###############
 #An example showing how to use template events from GrowClust or others
 #newly detected events will be relocated by growclust
+#see MatchLocate/GrowClust/OUT/out.growclust_cat
 #Just provide a strategy, not well tested
 #cd MatchLocate
 #bash run_matchlocate.sh
