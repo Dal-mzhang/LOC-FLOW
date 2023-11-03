@@ -39,7 +39,10 @@ data[["year", "mon", "day"]] = data["begin_time"].apply(lambda x: pd.Series([f"{
 data["ss"] = data["begin_time"].apply(lambda x: (x - datetime.fromisoformat(f"{x.year:04d}-{x.month:02d}-{x.day:02d}")).total_seconds())
 data[["net", "name", "loc", "channel"]] = data["station_id"].apply(lambda x: pd.Series(x.split(".")))
 data["dum"] = pd.Series(np.ones(len(data)))
-data["phase_amp"] = data["phase_amp"] * 2080 * 20
+data["phase_amp"] = data["phase_amp"] * 2080 * 20 
+# why 2080? see https://docs.obspy.org/_modules/obspy/signal/invsim.html
+# 2080*20 is because PhaseNet didn’t convolve the response into the Wood-Anderson type and a factor of 20 is experimentally adopted to correct the amplitude.
+# Please consider re-calculating the magnitude using the other script 'calc_mag.py'
 data["phase_time"] = data["ss"] + data["phase_index"] * samplingrate
 data[data["phase_type"] == "P"].to_csv(output1, columns=["year", "mon", "day", "net", "name", "dum", "phase_time", "phase_score", "phase_amp"], index=False, header=False)
 data[data["phase_type"] == "S"].to_csv(output2, columns=["year", "mon", "day", "net", "name", "dum", "phase_time", "phase_score", "phase_amp"], index=False, header=False)
