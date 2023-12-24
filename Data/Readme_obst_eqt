@@ -1,0 +1,34 @@
+obst-eqt_input.py will download waveforms with required formats by EQTransformer (EQT) and OBSTransformer (OBST)
+
+Both machine learning phase pikers and their training models can be found in ../Pick folder
+
+The original EQTransformer can be found at https://github.com/smousavi05/EQTransformer
+The original OBSTransformer can be found at https://github.com/alirezaniki/OBSTransformer
+
+Input data to EQT and OBST is different from the original structure implemented in LOC-FLOW:
+The input dataset must be in following structure (see dataset folder after you ran the code):
+
+dataset/
+...    sta_1/
+       ...         mseed files
+...    sta_2/
+       ...         mseed files
+..
+
+It also requires the station metadata to be stored in a JSON file (see json/station_list.json after you ran the code).
+
+Here, we provided the script "obst-eqt_input.py" to provide the requirements:
+1. It downloads the demanded waveforms in a specfic time period and region (similar to the waveform_download.py).
+2. It generates the json station file and also the "station.dat" file which will be needed by REAL.
+
+
+In this example, "dataset", "datasetxml", and "json" folders will be created if you run the code. Before running, you need to be in EQT's environment (e.g., conda activate eqt). Please check the preprocessing steps in the scrpit. Also, please choose the optimal filterinig frequency for EQT (1-45 Hz) and OBST (3-20 Hz). 
+
+
+Next, we move to ../Pick folder to do the picking.
+
+It should work well before the hypoDD_dtcc step.
+The hypoDD_dtcc utilizes FDTCC to compute cross-correlation differential times, requiring SAC formats and specific file naming.
+To simply overcome this issue, you can download the same data again using the data downloading script in origional LOC-FLOW.
+
+Prepared by Alireza Niksejel <alireza.niksejel@dal.ca> and Miao Zhang <miao.zhang@dal.ca>
