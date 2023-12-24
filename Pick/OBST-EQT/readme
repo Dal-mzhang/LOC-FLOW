@@ -1,0 +1,21 @@
+Additional pickers to the original LOC-FLOW (Zhang et al., SRL, 2022)
+
+The original EQTransformer can be found at https://github.com/smousavi05/EQTransformer
+The original OBSTransformer can be found at https://github.com/alirezaniki/OBSTransformer
+We provided the prediction script and training models in this directory. 
+For the software installation environment, please check the instructions in the original EQT package.
+
+Originally, we only have the "run_picker.py" file and "models" folder in this directory.
+
+"run_picker.py" reads in the material provided in the previous step and starts the picking either by EQT or OBST. In this example, 
+outputs are stored in "output" folder.
+
+Then we convert these outputs to a REAL-friendly format (see "picks" folder) and run the "pick2real" tool to generate the final picks.
+
+next, we go to ../REAL folder.
+
+It should work well before the hypoDD_dtcc step.
+The hypoDD_dtcc utilizes FDTCC to compute cross-correlation differential times, requiring SAC formats and specific file naming.
+To simply overcome this issue, you can download the same data again using the data downloading script in origional LOC-FLOW.
+
+Prepared by Alireza Niksejel <alireza.niksejel@dal.ca> and Miao Zhang <miao.zhang@dal.ca>, Dec. 24, 2023
