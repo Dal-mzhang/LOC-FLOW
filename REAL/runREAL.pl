@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-@ARGV == 1 || die "perl $0 STALTA:0 PhaseNet:1\n";
+@ARGV == 1 || die "perl $0 STALTA:0 PhaseNet:1  EQT or OBST: 2\n";
 $picker=$ARGV[0];
 chomp($picker);
 
@@ -69,8 +69,10 @@ for($i=0; $i<$nday; $i++){
         $dir = "../Pick/STALTA/$year$month$day"; # use STA/LTA picks
     }elsif($picker==1){
         $dir = "../Pick/PhaseNet/$year$month$day"; # use PhaseNet picks
+    }elsif($picker==2){
+  	$dir = "../Pick/OBST-EQT/picks/$year$month$day"; # use EQT or OBST picks
     }else{
-        printf STDERR "please choose 0: STALTA or 1: PhaseNet";
+        printf STDERR "please choose 0: STALTA or 1: PhaseNet or 2: EQT/OBST";
     }
     $station = "../Data/station.dat";
     $ttime = "./tt_db/ttdb.txt";
