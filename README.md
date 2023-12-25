@@ -48,3 +48,18 @@ to the Spanish Springs and Sheldon, Nevada, earthquake sequences, Seismol. Res. 
 
 Match&Locate:  
 Zhang, M., and L. Wen (2015). An effective method for small event detection: Match and locate (M&L), Geophys. J. Int. 200, no. 3, 1523–1537, doi: 10.1093/gji/ggu466.
+
+# Major updates:
+Dec. 24, 2023
+
+Integrated EQTransformer and OBSTransformer into LOC-FLOW, contributed by Alireza Niksejel (the developer of OBSTransformer).
+
+See major udpates and readme files under Data and Pick directories.
+
+EQTransformer: https://github.com/smousavi05/EQTransformer 
+
+Mousavi, S.M., W.L. Ellsworth, W. Zhu, L.Y. Chuang, and G.C. Beroza (2020). Earthquake transformer—an attentive deep-learning model for simultaneous earthquake detection and phase picking. Nat Commun 11, 3952, doi: 10.1038/s41467-020-17591-w
+
+OBSTransformer: https://github.com/alirezaniki/OBSTransformer 
+
+Niksejel, A. and M. Zhang M (2023). OBSTransformer: A Deep-Learning Seismic Phase Picker for OBS Data Using Automated Labelling and Transfer Learning. Pre-print versoin at https://doi.org/10.48550/arXiv.2306.04753
