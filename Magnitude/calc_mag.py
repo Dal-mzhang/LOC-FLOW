@@ -21,6 +21,12 @@ g = open(catmag,'w')
 paz_wa = {'poles': [-6.283 + 4.7124j, -6.283 - 4.7124j],
                 'zeros': [0 + 0j], 'gain': 1.0, 'sensitivity': 2080}
 
+#You don't have to remove the response when you download the waveforms
+#You may remove the response here before your calculate the magnitude
+
+#inv_path = './station.xml'
+#all_inv = obspy.read_inventory(inv_path)
+
 i=0
 mags = []
 with open(phasedir) as p:
@@ -79,6 +85,9 @@ with open(phasedir) as p:
                         waven = ddirwaveform+'/'+date+'/'+net+'.'+station+'.'+chann
                         tre = read(wavee,starttime=tb,endtime=te)
                         trn = read(waven,starttime=tb,endtime=te)
+                        #if you didn't remove the reponse, please use below two lines
+                        #tre.remove_response(inventory=all_inv, output="VEL")
+                        #trn.remove_response(inventory=all_inv, output="VEL")
                         tre.simulate(paz_remove = None, paz_simulate = paz_wa, taper=True,taper_fraction=0.02)
                         trn.simulate(paz_remove = None, paz_simulate = paz_wa, taper=True,taper_fraction=0.02)
                         datatre = tre[0].data
