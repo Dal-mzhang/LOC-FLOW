@@ -139,6 +139,9 @@ for i in range(nday):
     st.detrend("demean")
     st.detrend("linear")
     st.interpolate(sampling_rate=samplingrate,startime=tb)
+    #response removal takes significant time
+    #If you don't remove response here, the magnitude output in REAL is meaningless
+    #If you decide to download raw data, you may remove response under the ../Magnitude directory to compute magnitude
     pre_filt = [0.001, 0.002, 25, 30]
     st.attach_response(inv)
     st.remove_response(pre_filt=pre_filt,water_level=60,taper=True,taper_fraction=0.00001)
