@@ -71,6 +71,9 @@ for i in range(nday):
                     st.detrend("demean")
                     st.detrend("linear")
                     pre_filt = [0.001, 0.002, 25, 30]
+                    #response removal takes significant time
+                    #If you don't remove response here, the magnitude output in REAL is meaningless
+                    #If you decide to download raw data, you may remove response under the ../Magnitude directory to compute magnitude
                     st.remove_response(pre_filt=pre_filt,water_level=60,taper=True,taper_fraction=0.00001)
                     st[0].stats.sac = dict()
                     st[0].stats.sac.stla = stla
