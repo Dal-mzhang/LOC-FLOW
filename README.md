@@ -62,4 +62,4 @@ Mousavi, S.M., W.L. Ellsworth, W. Zhu, L.Y. Chuang, and G.C. Beroza (2020). Eart
 
 OBSTransformer: https://github.com/alirezaniki/OBSTransformer 
 
-Niksejel, A. and M. Zhang M (2023). OBSTransformer: A Deep-Learning Seismic Phase Picker for OBS Data Using Automated Labelling and Transfer Learning. Pre-print versoin at https://doi.org/10.48550/arXiv.2306.04753
+Niksejel, A. and M. Zhang M (2024). OBSTransformer: A Deep-Learning Seismic Phase Picker for OBS Data Using Automated Labelling and Transfer Learning. Geophys. J. Int. 237, 485–505, doi: 10.1093/gji/ggae049
