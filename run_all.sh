@@ -33,6 +33,9 @@ ipick=1  #0: no, do nothing
          #1: yes,run this step
 picker=1 #0: STA/LTA picker
          #1: phasenet picker
+         #2: EQT/OBST picker
+         #3: SeisBench picker
+seisbench_model=PhaseNet_original # used when picker=3; folder under Pick/SeisBench/picks
 
 if (($ipick == 1))
 then
@@ -51,6 +54,20 @@ then
         #conda activate phasenet 
         #You have to manually activate the python environment before run the script
         python runphasenet.py || { echo 'Error running PhaseNet'; exit 1; }
+        sleep 0.5
+        cd ../../
+    elif (($picker == 2))
+    then
+        #run EQTransformer or OBSTransformer and creat REAL required pick files
+        cd ./Pick/OBST-EQT
+        python run_picker.py EQT || { echo 'Error running EQT/OBST picker'; exit 1; }
+        sleep 0.5
+        cd ../../
+    elif (($picker == 3))
+    then
+        #run SeisBench and creat REAL required pick files
+        cd ./Pick/SeisBench
+        python runseisbench.py --models $seisbench_model || { echo 'Error running SeisBench'; exit 1; }
         sleep 0.5
         cd ../../
     else
@@ -84,7 +101,12 @@ if (($ireal == 1))
 then
     cd ./REAL/
     # run REAL and merge picks and catalogs
-    perl runREAL.pl $picker || { echo 'Error running REAL'; exit 1; }
+    if (($picker == 3))
+    then
+        perl runREAL.pl $picker $seisbench_model || { echo 'Error running REAL'; exit 1; }
+    else
+        perl runREAL.pl $picker || { echo 'Error running REAL'; exit 1; }
+    fi
     cd ..
     # please check the X-T curves for P and S in the t_dist dir
     # please check waveforms and picks to verify those worst events in the event_verify dir

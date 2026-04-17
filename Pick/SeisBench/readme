@@ -1,0 +1,76 @@
+SeisBench picker for LOC-FLOW
+
+This directory contains `runseisbench.py`, a SeisBench wrapper that writes
+REAL-compatible pick files directly.
+
+Default input layout:
+
+    ../../Data/waveform_sac/YYYYMMDD/NET.STA.CHANNEL
+    ../../Data/station.dat
+
+If `../../Data/station.dat` does not exist, the script falls back to
+`../../Data/station_all.dat`.
+
+Default output layout:
+
+    picks/PhaseNet_original/YYYYMMDD/NET.STA.P.txt
+    picks/PhaseNet_original/YYYYMMDD/NET.STA.S.txt
+
+Each pick line is:
+
+    seconds_since_midnight probability amplitude
+
+Basic usage:
+
+    python3 runseisbench.py --models PhaseNet_original --start-date 2016-10-14 --nday 1 --device auto
+
+Model and weight syntax:
+
+    PhaseNet_original
+    PhaseNet:original
+    PhaseNet:stead
+    EQTransformer:stead
+    EQTransformer:stead@EQT_Ranked25_WOGrCl_Aug_0.3_2
+
+The output folder label is normally `<Model>_<Weight>`. Use `@label` to set a
+custom folder name.
+
+CPU and GPU examples:
+
+    python3 runseisbench.py --models PhaseNet_original --device cpu --workers 8
+    python3 runseisbench.py --models PhaseNet_original --device cuda:0
+    python3 runseisbench.py --models PhaseNet_original --device all --workers 2
+
+Multiple models can be run together. Each model/weight pair gets its own pick
+folder:
+
+    python3 runseisbench.py --models PhaseNet_original,PhaseNet_stead,EQTransformer_stead --device auto
+
+For OBS-style three-component files such as `DHZ`, `DH1`, and `DH2`, use exact
+channels and a file template:
+
+    python3 runseisbench.py \
+      --data-dir /path/to/waveform_sac_withInstrument_Response_500HZ \
+      --station-file /path/to/station_list_3Cs.json \
+      --file-template "{date}/{station}/5B.{station}.{channel}" \
+      --channels DHZ,DH1,DH2 \
+      --start-date 2016-10-26 \
+      --end-date 2016-12-01 \
+      --models PhaseNet_original \
+      --model-sampling-rate 500 \
+      --device auto
+
+CSV results are disabled by default because the REAL-ready pick files are
+written directly. Enable CSV output only when needed:
+
+    python3 runseisbench.py --models PhaseNet_original --save-csv
+
+To associate SeisBench picks with REAL:
+
+    cd ../../REAL
+    perl runREAL.pl 3 PhaseNet_original
+
+To use SeisBench through `run_all.sh`, set:
+
+    picker=3
+    seisbench_model=PhaseNet_original

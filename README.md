@@ -10,13 +10,38 @@ The LOC-FLOW is released and maintained at https://github.com/Dal-mzhang/LOC-FLO
 How to start? bash run_all.sh. 
 Detailed step-by-step explanations can be found in the CookBook and corresponding scripts.
 
-Dependent packages in LOC-FLOW include PhaseNet [contains Obspy], REAL, VELEST, HYPOINVERSE, hypoDD, GrowClust, FDTCC, Match&Locate; see [STEP 0 in the CookBook or src]. Questions related to the original packages should be addressed to the corresponding authors.
+Dependent packages in LOC-FLOW include PhaseNet [contains Obspy], SeisBench [requires PyTorch], REAL, VELEST, HYPOINVERSE, hypoDD, GrowClust, FDTCC, Match&Locate; see [STEP 0 in the CookBook or src]. Questions related to the original packages should be addressed to the corresponding authors.
 
 All other credits to Miao Zhang (also author of REAL and Match&Locate), Min Liu (also author of FDTCC), and Tian Feng, who integrated these packages and made the I/O codes publicly available. We thank Weiqiang Zhu for help with the PhaseNet. The CookBook is prepared by Ruijia Wang and Miao Zhang.
 
 Users are free to make modifications to the programs to meet their particular needs, but are discouraged from distributing modified code to others without notification of the authors. If you find any part of the workflow useful, please cite our work or the corresponding publications of the packages.
 
 Please download (src/software_download.py) and regularly check source code updates: PhaseNet: https://github.com/wayneweiqiang/PhaseNet; REAL: https://github.com/Dal-mzhang/REAL; FDTCC: https://github.com/MinLiu19/FDTCC; hypoDD: https://www.ldeo.columbia.edu/~felixw/hypoDD.html; GrowClust: https://github.com/dttrugman/GrowClust; Match&Locate: https://github.com/Dal-mzhang/MatchLocate2; HYPOINVERSE: https://www.usgs.gov/node/279394 or https://faldersons.net/Software/Hypoinverse/Hypoinverse.html
+
+# SeisBench picker
+
+This fork includes a SeisBench picker wrapper at `Pick/SeisBench/runseisbench.py`. It reads the standard LOC-FLOW waveform layout by default, writes REAL-compatible pick files directly, and groups outputs by model and pretrained weight:
+
+```
+Pick/SeisBench/picks/PhaseNet_original/YYYYMMDD/NET.STA.P.txt
+Pick/SeisBench/picks/PhaseNet_original/YYYYMMDD/NET.STA.S.txt
+```
+
+Examples:
+
+```
+python3 Pick/SeisBench/runseisbench.py --models PhaseNet_original --start-date 2016-10-14 --nday 1 --device auto
+python3 Pick/SeisBench/runseisbench.py --models PhaseNet:original,PhaseNet:stead,EQTransformer:stead --device all
+```
+
+Use `picker=3` and set `seisbench_model` in `run_all.sh` to run SeisBench through the full LOC-FLOW workflow. For association only:
+
+```
+cd REAL
+perl runREAL.pl 3 PhaseNet_original
+```
+
+More SeisBench-specific examples are in `Pick/SeisBench/readme`.
 
 An English tutorial at https://drive.google.com/file/d/1Bka_bG55fJwXlvp8oJINgTRKqcnTrvpg/view?usp=drive_link; A Chinese tutorial at https://drive.google.com/file/d/1zlaubeYgmQnBeCO9dz627HXrtrwy79rm/view?usp=sharing (recorded video at https://www.koushare.com/video/videodetail/14767)
 
@@ -50,6 +75,10 @@ Match&Locate:
 Zhang, M., and L. Wen (2015). An effective method for small event detection: Match and locate (M&L), Geophys. J. Int. 200, no. 3, 1523–1537, doi: 10.1093/gji/ggu466.
 
 # Major updates:
+Apr. 17, 2026
+
+Added SeisBench phase picking support through `Pick/SeisBench/runseisbench.py`. The wrapper supports CPU, one GPU, or multiple GPUs, accepts model/weight labels such as `PhaseNet_original` and `EQTransformer_stead`, and writes REAL-compatible pick files under `Pick/SeisBench/picks/<model_label>/<date>`.
+
 Dec. 24, 2023
 
 Integrated EQTransformer and OBSTransformer into LOC-FLOW, contributed by Alireza Niksejel (the developer of OBSTransformer).

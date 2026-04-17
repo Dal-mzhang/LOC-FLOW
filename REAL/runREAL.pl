@@ -1,7 +1,9 @@
 #!/usr/bin/perl -w
-@ARGV == 1 || die "perl $0 STALTA:0 PhaseNet:1  EQT or OBST: 2\n";
+@ARGV >= 1 && @ARGV <= 2 || die "perl $0 STALTA:0 PhaseNet:1 EQT or OBST:2 SeisBench:3 [SeisBench_model_weight]\n";
 $picker=$ARGV[0];
 chomp($picker);
+$seisbench_model = defined $ARGV[1] ? $ARGV[1] : "PhaseNet_original";
+chomp($seisbench_model);
 
 #how to evaluate your parameters:
 #1. check P and S t_dist curve (if too narrow, increase nrt; vice versa)
@@ -71,8 +73,10 @@ for($i=0; $i<$nday; $i++){
         $dir = "../Pick/PhaseNet/$year$month$day"; # use PhaseNet picks
     }elsif($picker==2){
   	$dir = "../Pick/OBST-EQT/picks/$year$month$day"; # use EQT or OBST picks
+    }elsif($picker==3){
+        $dir = "../Pick/SeisBench/picks/$seisbench_model/$year$month$day"; # use SeisBench picks
     }else{
-        printf STDERR "please choose 0: STALTA or 1: PhaseNet or 2: EQT/OBST";
+        printf STDERR "please choose 0: STALTA, 1: PhaseNet, 2: EQT/OBST, or 3: SeisBench";
     }
     $station = "../Data/station.dat";
     $ttime = "./tt_db/ttdb.txt";
