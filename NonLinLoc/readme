@@ -1,0 +1,58 @@
+NonLinLoc location module
+
+This module is intended to run after REAL association. By default the run
+scripts read:
+
+../REAL/*.phase_sel.txt
+../Data/station.dat
+../REAL/tt_db/mymodel.nd
+
+and creates NonLinLoc inputs:
+
+obs/station_coordinates.txt
+obs/phases.obs
+obs_files/Event_*.nlloc_obs
+run/vel_model.nd
+nlloc.in
+loc2ssst.in
+
+Typical use:
+
+bash run_nonlinloc.sh
+
+For iterative SSST relocation:
+
+bash run_ssst_relocations.sh
+
+The run scripts use binaries staged in the repository bin directory, or the
+directory set with `NLL_BIN_DIR`:
+
+../bin
+NLL_BIN_DIR=/path/to/NonLinLoc/src/bin bash run_ssst_relocations.sh
+
+If they are missing, build the needed programs from the repository root and
+stage them with:
+
+cmake -S src/NonLinLoc/src -B src/NonLinLoc/src/build
+cmake --build src/NonLinLoc/src/build --target Vel2Grid Grid2Time NLLoc Loc2ssst LocSum -j
+cd src
+bash run_install.sh
+
+Grid2Time is run once for P and once for S because GTFILES selects one phase
+per run. The default grids use cubic 1 km cells because the Podvin-Lecomte
+travel-time solver requires dx=dy=dz. The default -2 km grid top keeps the
+current station elevations inside the model.
+
+Before final locations, edit run_nonlinloc.sh for the study-specific grid,
+reference point, datum shift, pick-error mode, and minimum phase count.
+For SSST runs, edit run_ssst_relocations.sh for the same grid/datum settings
+and the iteration count.
+
+Pick uncertainty modes:
+
+fixed: use the P and S errors set in the run script for every pick.
+residual: use bounded REAL phase_sel residuals,
+sigma = min(max(abs(residual), phase_floor), sigma_cap).
+auto: use residuals when available and otherwise fall back to fixed errors.
+
+The default floors are P=0.02 s and S=0.04 s. The default cap is 0.50 s.

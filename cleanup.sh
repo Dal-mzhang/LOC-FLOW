@@ -11,10 +11,15 @@ rm -rf Data/waveform_phasenet Data/waveform_mseed Data/fname.csv Data/station.da
 
 rm -rf Pick/PhaseNet/20161014 Pick/PhaseNet/results
 rm -rf Pick/STALTA/20161014
+rm -rf Pick/SeisBench/picks Pick/SeisBench/results
 
 rm REAL/*.txt REAL/*.dat 
 rm REAL/t_dist/*.pdf REAL/tt_db/ttdb.txt REAL/t_dist/t_dist.dat
 rm -rf REAL/event_verify/*all REAL/event_verify/*pick
+
+rm -rf NonLinLoc/obs NonLinLoc/obs_files NonLinLoc/run NonLinLoc/model NonLinLoc/time NonLinLoc/loc
+rm -rf NonLinLoc/tmp NonLinLoc/ssst NonLinLoc/out
+rm -f NonLinLoc/nlloc.in NonLinLoc/loc2ssst.in NonLinLoc/ssst.list NonLinLoc/Grid2GMT_SSST.cpt
 
 rm location/VELEST/*.cat location/VELEST/velest.* location/VELEST/man.OUT location/VELEST/out.CHECK location/VELEST/final.CNV location/VELEST/*.pdf location/VELEST/main.OUT
 rm location/hypoinverse/*.arc location/hypoinverse/*.pdf location/hypoinverse/*.cat location/hypoinverse/*.crh

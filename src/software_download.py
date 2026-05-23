@@ -9,9 +9,10 @@ os.system('rm HYPODD_1.3.tar.gz')
 os.system('git clone https://github.com/dttrugman/GrowClust.git')
 os.system('git clone https://github.com/Dal-mzhang/MatchLocate2.git')
 os.system('git clone https://github.com/MinLiu19/FDTCC')
+os.system('git clone https://github.com/ut-beg-texnet/NonLinLoc.git')
 
 
 #hypoinverse can be downloaded at https://www.usgs.gov/software/hypoinverse-earthquake-location
 #Complie each software and move commands in ../bin, and add the path in your ~/.bash_profile
+#SeisBench should be installed in your Python environment with pip or conda.
 #source ~/.bash_profile
-
