@@ -1,4 +1,4 @@
-#!/bin/bash -w
+#!/bin/bash
 # Data preparation and phase picking may take a lot of time
 # please type "conda activate phasenet" in the command line first
 # obspy is included in phasenet
@@ -184,7 +184,7 @@ else
         echo 'hypoinverse location ...'
         cd hypoinverse
         bash run_hypoinverse.sh || { echo 'Error running Hypoinverse'; exit 1; }
-        #velocity model is tricky, may need to mannually adjust it.
+        #velocity model is tricky, may need to manually adjust it.
         cd ../..
     elif (($hypo == 3))
     then

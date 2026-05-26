@@ -1,4 +1,4 @@
-#!/bin/bash -w
+#!/bin/bash
 
 # Run Loc2ssst in station batches. Station labels are read from the generated
 # GTSRCE station file.

@@ -1,4 +1,4 @@
-#!/bin/bash -w
+#!/bin/bash
 
 # Run NLLoc over split NLLOC_OBS event files in parallel.
 

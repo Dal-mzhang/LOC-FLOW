@@ -160,19 +160,31 @@ def station_label(station: str, prefix: str) -> str:
     return f"{prefix_norm}{station}"
 
 
+def parse_station_line(
+    station_file: Path, line_number: int, line: str
+) -> tuple[str, str, str, str, str, str]:
+    parts = line.split()
+    if len(parts) < 6:
+        raise ValueError(
+            f"{station_file}:{line_number}: expected 6 columns "
+            "(lon lat net station component elevation)"
+        )
+    lon, lat, net, sta, comp, elev = parts[:6]
+    return lon, lat, net, sta, comp, elev
+
+
 def read_stations(station_file: Path, station_prefix: str) -> tuple[dict[str, str], float, float]:
     stations: dict[str, str] = {}
     lats: list[float] = []
     lons: list[float] = []
 
     with station_file.open() as handle:
-        for line in handle:
+        for line_number, line in enumerate(handle, start=1):
             if not line.strip() or line.lstrip().startswith("#"):
                 continue
-            parts = line.split()
-            if len(parts) < 6:
-                continue
-            lon, lat, _net, sta, _comp, elev = parts[:6]
+            lon, lat, _net, sta, _comp, _elev = parse_station_line(
+                station_file, line_number, line
+            )
             label = station_label(sta, station_prefix)
             stations[sta] = label
             lats.append(float(lat))
@@ -192,13 +204,12 @@ def write_station_file(
 
     with station_file.open() as source, output_file.open("w") as out:
         out.write("#GTSRCE  label  type  lat  lon  z_srce  elev\n")
-        for line in source:
+        for line_number, line in enumerate(source, start=1):
             if not line.strip() or line.lstrip().startswith("#"):
                 continue
-            parts = line.split()
-            if len(parts) < 6:
-                continue
-            lon, lat, _net, sta, _comp, elev = parts[:6]
+            lon, lat, _net, sta, _comp, elev = parse_station_line(
+                station_file, line_number, line
+            )
             label = station_map[sta]
             out.write(
                 f"GTSRCE  {label:<8s} LATLON  {float(lat):9.5f} "

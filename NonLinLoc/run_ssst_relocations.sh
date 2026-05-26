@@ -1,4 +1,4 @@
-#!/bin/bash -w
+#!/bin/bash
 
 # Iterative NonLinLoc + Loc2ssst SSST relocation.
 

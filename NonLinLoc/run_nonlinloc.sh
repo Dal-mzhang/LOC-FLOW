@@ -1,4 +1,4 @@
-#!/bin/bash -w
+#!/bin/bash
 
 # Run NonLinLoc after REAL association.
 # Edit the variables below for your study area before running.

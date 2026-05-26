@@ -84,7 +84,7 @@ for($i=0; $i<$nday; $i++){
     }elsif($picker==3){
         $dir = "../Pick/SeisBench/picks/$seisbench_model/$year$month$day"; # use SeisBench picks
     }else{
-        printf STDERR "please choose 0: STALTA, 1: PhaseNet, 2: EQT/OBST, or 3: SeisBench";
+        printf STDERR "please choose 0: STALTA, 1: PhaseNet, 2: EQT/OBST, or 3: SeisBench\n";
         exit 1;
     }
     $station = "../Data/station.dat";
