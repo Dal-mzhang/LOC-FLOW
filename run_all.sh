@@ -1,4 +1,4 @@
-#!/bin/bash -w
+#!/bin/bash
 # Data preparation and phase picking may take a lot of time
 # please type "conda activate phasenet" in the command line first
 # obspy is included in phasenet
@@ -33,6 +33,14 @@ ipick=1  #0: no, do nothing
          #1: yes,run this step
 picker=1 #0: STA/LTA picker
          #1: phasenet picker
+         #2: EQT or OBST picker
+         #3: SeisBench picker
+seisbench_model=PhaseNet_original
+seisbench_start_date=2016-10-14
+seisbench_nday=1
+seisbench_device=auto
+seisbench_workers=1
+obst_eqt_model=EQT # EQT or OBST
 
 if (($ipick == 1))
 then
@@ -52,6 +60,23 @@ then
         #You have to manually activate the python environment before run the script
         python runphasenet.py || { echo 'Error running PhaseNet'; exit 1; }
         sleep 0.5
+        cd ../../
+    elif (($picker == 2))
+    then
+        # run EQTransformer or OBSTransformer and create REAL required pick files
+        cd ./Pick/OBST-EQT
+        python run_picker.py "$obst_eqt_model" || { echo 'Error running EQT/OBST'; exit 1; }
+        cd ../../
+    elif (($picker == 3))
+    then
+        # run SeisBench and create REAL required pick files
+        cd ./Pick/SeisBench
+        python runseisbench.py \
+            --models "$seisbench_model" \
+            --start-date "$seisbench_start_date" \
+            --nday "$seisbench_nday" \
+            --device "$seisbench_device" \
+            --workers "$seisbench_workers" || { echo 'Error running SeisBench'; exit 1; }
         cd ../../
     else
         echo 'please select your picker'
@@ -84,7 +109,12 @@ if (($ireal == 1))
 then
     cd ./REAL/
     # run REAL and merge picks and catalogs
-    perl runREAL.pl $picker || { echo 'Error running REAL'; exit 1; }
+    if (($picker == 3))
+    then
+        perl runREAL.pl $picker "$seisbench_model" || { echo 'Error running REAL'; exit 1; }
+    else
+        perl runREAL.pl $picker || { echo 'Error running REAL'; exit 1; }
+    fi
     cd ..
     # please check the X-T curves for P and S in the t_dist dir
     # please check waveforms and picks to verify those worst events in the event_verify dir
@@ -93,8 +123,33 @@ else
     echo 'REAL association step skipped'
 fi
 
+#########################in NonLinLoc dir#################
+inlloc=0 #0: no, do nothing
+         #1: run initial NonLinLoc locations after REAL
+issst=0  #0: no, do nothing
+         #1: run iterative NonLinLoc/SSST relocation after REAL
+
+if (($inlloc == 1))
+then
+    cd NonLinLoc
+    bash run_nonlinloc.sh || { echo 'Error running NonLinLoc'; exit 1; }
+    cd ..
+else
+    echo 'NonLinLoc location step skipped'
+fi
+
+if (($issst == 1))
+then
+    cd NonLinLoc
+    bash run_ssst_relocations.sh || { echo 'Error running NonLinLoc/SSST'; exit 1; }
+    cd ..
+else
+    echo 'NonLinLoc/SSST relocation step skipped'
+fi
+
 #########################in location dir#################
-hypo=2  # 0: use the REAL's simulated annealing locations
+hypo=2  # -1: skip traditional LOC-FLOW location/refinement steps
+        # 0: use the REAL's simulated annealing locations
         # 1: use VELEST locations (mode=1: location; mode=0: location + sta. corr. + vel update; 
         #                          mode=0 only for high-quanlity large datset)
         # 2. use hypoinverse locations, recommend this one!!
@@ -106,71 +161,76 @@ mode=1  #1: update location alone (default)
         #0: use high quanlity events to update velcity, location, station corr.
         #   then relocate all events. use mode=0 only for many events!!
 
-cd location
-
-if (($hypo == 0))
+if (($hypo < 0))
 then
-     # do nothing, already done in REAL
-     echo 'use REAL SA location'
-     cd ..
-elif (($hypo == 1))
-then
-    echo 'VELEST location ...'
-    cd VELEST
-    bash run_velest.sh $mode || { echo 'Error running VELEST'; exit 1; }
-    cd ../..
-
-elif (($hypo == 2))
-then
-    echo 'hypoinverse location ...'
-    cd hypoinverse
-    bash run_hypoinverse.sh || { echo 'Error running Hypoinverse'; exit 1; }
-    #velocity model is tricky, may need to mannually adjust it.
-    cd ../..
-elif (($hypo == 3))
-then
-    echo 'VELEST first, hypoinverse second'
-    cd VELEST
-    mode=0
-    bash run_velest.sh $mode || { echo 'Error running VELEST in mode 0'; exit 1; }
-    cd ../hypoinverse_corr
-    bash run_hypoinverse_corr.sh || { echo 'Error running Hypoinverse with VELEST corrections'; exit 1; }
-    #velocity model is tricky, check notices in run_hypoinverse_corr.sh.
-    cd ../..
+    echo 'Traditional LOC-FLOW location/refinement steps skipped'
 else
-    echo 'please select your location method'
-    exit 1
-fi
+    cd location
+
+    if (($hypo == 0))
+    then
+         # do nothing, already done in REAL
+         echo 'use REAL SA location'
+         cd ..
+    elif (($hypo == 1))
+    then
+        echo 'VELEST location ...'
+        cd VELEST
+        bash run_velest.sh $mode || { echo 'Error running VELEST'; exit 1; }
+        cd ../..
+
+    elif (($hypo == 2))
+    then
+        echo 'hypoinverse location ...'
+        cd hypoinverse
+        bash run_hypoinverse.sh || { echo 'Error running Hypoinverse'; exit 1; }
+        #velocity model is tricky, may need to manually adjust it.
+        cd ../..
+    elif (($hypo == 3))
+    then
+        echo 'VELEST first, hypoinverse second'
+        cd VELEST
+        mode=0
+        bash run_velest.sh $mode || { echo 'Error running VELEST in mode 0'; exit 1; }
+        cd ../hypoinverse_corr
+        bash run_hypoinverse_corr.sh || { echo 'Error running Hypoinverse with VELEST corrections'; exit 1; }
+        #velocity model is tricky, check notices in run_hypoinverse_corr.sh.
+        cd ../..
+    else
+        echo 'please select your location method'
+        exit 1
+    fi
 
 #########################in hypoDD_dtct dir#################
-cd hypoDD_dtct
-bash run_hypoDD_dtct.sh $hypo || { echo 'Error running hypoDD_dtct'; exit 1; }
-# may need to change parameters in ph2dt.in and hypoDD.in
-cd ../
+    cd hypoDD_dtct
+    bash run_hypoDD_dtct.sh $hypo || { echo 'Error running hypoDD_dtct'; exit 1; }
+    # may need to change parameters in ph2dt.in and hypoDD.in
+    cd ../
 
 #########################in hypoDD_dtcc dir#################
 #please make sure you have finished hypoDD_dtct
 #here we use hypoDD_dtct locations to update those available
 #locations from hypoDD_dtct, others are kept as the initial 
 #locations. Just provide a strategy, feel free to change
-cd hypoDD_dtcc
-bash run_hypoDD_dtcc.sh || { echo 'Error running hypoDD_dtcc'; exit 1; }
-# may need to change parameters in ph2dt.in and hypoDD_cconly.inp
-cd ..
+    cd hypoDD_dtcc
+    bash run_hypoDD_dtcc.sh || { echo 'Error running hypoDD_dtcc'; exit 1; }
+    # may need to change parameters in ph2dt.in and hypoDD_cconly.inp
+    cd ..
 
 #########################in GrowClust dir#################
 #please make sure you have finished hypoDD_dtct
 #here we use hypoDD_dtct locations to update those available
 #locations from hypoDD_dtct, others are kept as the initial 
 #locations. Just provide a strategy, feel free to change
-cd ./GrowClust
-bash run_growclust.sh || { echo 'Error running GrowClust'; exit 1; }
-cd ..
+    cd ./GrowClust
+    bash run_growclust.sh || { echo 'Error running GrowClust'; exit 1; }
+    cd ..
 
 #show preliminary location figures
-cd Plot
-bash plot_3dgmt.sh || { echo 'Error plotting 3D GMT'; exit 1; }
-cd ..
+    cd Plot
+    bash plot_3dgmt.sh || { echo 'Error plotting 3D GMT'; exit 1; }
+    cd ..
+fi
 
 #--------------------------optional-----------------------
 ##########################in Magintude dir###############

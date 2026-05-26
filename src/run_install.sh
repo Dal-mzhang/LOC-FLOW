@@ -12,7 +12,7 @@
 #conda env create -f env.yml
 
 #build the bin dir
-mkdir ../bin
+mkdir -p ../bin
 
 #move commands into ../bin
 cp ./FDTCC/bin/FDTCC ../bin/            #need SAC lib in Makefile
@@ -22,6 +22,20 @@ cp ./HYPODD/src/ph2dt/ph2dt ../bin/     #change g77 to gfortran or similar compl
 cp ./MatchLocate2/bin/* ../bin/         #need SAC lib in Makefile
 cp ./REAL/bin/* ../bin/                 #change gcc-10 (on Mac) to gcc as needed
 cp ./hyp1.40/source/hyp1.40  ../bin     #change f77 to gfortran or similar complier
+
+# NonLinLoc: compile src/NonLinLoc first, then stage the runtime commands.
+if [[ -d ./NonLinLoc/src/bin ]]
+then
+    cp ./NonLinLoc/src/bin/Vel2Grid ../bin/
+    cp ./NonLinLoc/src/bin/Grid2Time ../bin/
+    cp ./NonLinLoc/src/bin/NLLoc ../bin/
+    cp ./NonLinLoc/src/bin/Loc2ssst ../bin/
+    cp ./NonLinLoc/src/bin/LocSum ../bin/
+    cp ./NonLinLoc/src/bin/Grid2GMT ../bin/
+    cp ./NonLinLoc/src/bin/Time2EQ ../bin/
+else
+    echo "NonLinLoc binaries not found; compile src/NonLinLoc before staging NonLinLoc commands"
+fi
 
 #add this commond in your ~/.bash_profile or ~/.bashrc
 #export PATH=${your path}/LOC-FLOW/bin/:$PATH

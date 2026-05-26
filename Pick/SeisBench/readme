@@ -1,0 +1,66 @@
+SeisBench picker for LOC-FLOW
+
+This directory contains `runseisbench.py`, a SeisBench wrapper that writes
+REAL-compatible pick files directly.
+
+Default input layout:
+
+    ../../Data/waveform_sac/YYYYMMDD/NET.STA.CHANNEL
+    ../../Data/station.dat
+
+If `../../Data/station.dat` does not exist, the script falls back to
+`../../Data/station_all.dat`.
+
+Default output layout:
+
+    picks/PhaseNet_original/YYYYMMDD/NET.STA.P.txt
+    picks/PhaseNet_original/YYYYMMDD/NET.STA.S.txt
+
+Each pick line is:
+
+    seconds_since_midnight probability amplitude
+
+Basic usage:
+
+    python3 runseisbench.py --models PhaseNet_original --start-date 2016-10-14 --nday 1 --device auto
+
+Model and weight syntax:
+
+    PhaseNet_original
+    PhaseNet:original
+    GPD:original
+    EQTransformer:original_nonconservative
+The output folder label is normally `<Model>_<Weight>`. Use `@label` to set a
+custom folder name.
+
+CPU and GPU examples:
+
+    python3 runseisbench.py --models PhaseNet_original --device cpu --workers 8
+    python3 runseisbench.py --models PhaseNet_original --device cuda:0
+    python3 runseisbench.py --models PhaseNet_original --device all --workers 2
+
+Multiple models can be run together. Each model/weight pair gets its own pick
+folder:
+
+    python3 runseisbench.py --models PhaseNet_original,GPD_original,EQTransformer_original_nonconservative --device auto
+
+    python3 runseisbench.py \
+      --data-dir /path/to/waveform_sac \
+      --station-file /path/to/station_list_3Cs.json \
+      --file-template "{date}/{station}/5B.{station}.{channel}" \
+      --channels DHZ,DH1,DH2 \
+      --start-date 2016-10-26 \
+      --end-date 2016-12-01 \
+      --models PhaseNet_original \
+      --model-sampling-rate 500 \
+      --device auto
+
+
+To associate SeisBench picks with REAL:
+
+    cd ../../REAL
+    perl runREAL.pl PhaseNet_original
+
+To use SeisBench through `run_all.sh`, set:
+
+    seisbench_model=PhaseNet_original

@@ -11,6 +11,7 @@ from collections import defaultdict
 import os
 import sys
 import datetime
+import math
 
 def decdeg2dms(dd):
     deg, mnt = divmod(dd*60.0, 60)
@@ -91,6 +92,16 @@ def isEqLine(line):
     else:
         return True
 
+def process_mag(value):
+    try:
+        magnitude = float(value)
+    except ValueError:
+        return 0, 0
+    if not math.isfinite(magnitude) or magnitude < 0:
+        return 0, 0
+    magnitude_scaled = int(magnitude * 100 + 1e-8)
+    return magnitude_scaled // 100, magnitude_scaled % 100
+
 class SeismicReport(object):
     def __init__(self, eventsFile):
         self.events = []
@@ -155,12 +166,7 @@ class SeismicReport(object):
             hour, minute, second = event.stime.split(':')
             if(int(hour) < 0 or int(minute) < 0 or float(second) < 0): 
                 continue
-            mag1,mag2 = event.mag.split('.')
-            mag1 = int(mag1)
-            mag2 = int(mag2[0:2])
-            if float(event.mag) < 0:
-                mag1 = 0
-                mag2 = 0
+            mag1, mag2 = process_mag(event.mag)
             sec1 = second[0:2]
             sec2 = second[3:5]
             lat1, lat2, lat3 = self.processLatLon(event.lat)
